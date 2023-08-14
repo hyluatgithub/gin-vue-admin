@@ -1,0 +1,5 @@
+# project change log
+
+## 2023-08-14 20:50
+- 1.去除数据库初始化功能代码
+- 2.DBList仅保留mysql和pg，去除oracle和sqlserver
