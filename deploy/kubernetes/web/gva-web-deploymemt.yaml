@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gva-web
+  name: ecovacs-web
   annotations:
     flipped-aurora/gin-vue-admin: ui
     github: "https://github.com/flipped-aurora/gin-vue-admin.git"
     app.kubernetes.io/version: 0.0.1
   labels:
-    app: gva-web
-    version: gva-vue3
+    app: ecovacs-web
+    version: ecovacs-vue3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gva-web
-      version: gva-vue3
+      app: ecovacs-web
+      version: ecovacs-vue3
   template:
     metadata:
       labels:
-        app: gva-web
-        version: gva-vue3
+        app: ecovacs-web
+        version: ecovacs-vue3
     spec:
       containers:
         - name: gin-vue-admin-nginx-container
-          image: registry.cn-hangzhou.aliyuncs.com/gva/web:latest
+          image: registry.cn-hangzhou.aliyuncs.com/ecovacs/web:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

@@ -1,11 +1,11 @@
 package system
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/response"
+	"gin-vue-admin/server/model/system"
+	"gin-vue-admin/server/model/system/request"
+	"gin-vue-admin/server/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -30,7 +30,7 @@ func (s *DictionaryDetailApi) CreateSysDictionaryDetail(c *gin.Context) {
 	}
 	err = dictionaryDetailService.CreateSysDictionaryDetail(detail)
 	if err != nil {
-		global.GVA_LOG.Error("创建失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithMessage("创建失败", c)
 		return
 	}
@@ -55,7 +55,7 @@ func (s *DictionaryDetailApi) DeleteSysDictionaryDetail(c *gin.Context) {
 	}
 	err = dictionaryDetailService.DeleteSysDictionaryDetail(detail)
 	if err != nil {
-		global.GVA_LOG.Error("删除失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("删除失败!", zap.Error(err))
 		response.FailWithMessage("删除失败", c)
 		return
 	}
@@ -80,7 +80,7 @@ func (s *DictionaryDetailApi) UpdateSysDictionaryDetail(c *gin.Context) {
 	}
 	err = dictionaryDetailService.UpdateSysDictionaryDetail(&detail)
 	if err != nil {
-		global.GVA_LOG.Error("更新失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 		return
 	}
@@ -110,7 +110,7 @@ func (s *DictionaryDetailApi) FindSysDictionaryDetail(c *gin.Context) {
 	}
 	reSysDictionaryDetail, err := dictionaryDetailService.GetSysDictionaryDetail(detail.ID)
 	if err != nil {
-		global.GVA_LOG.Error("查询失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("查询失败!", zap.Error(err))
 		response.FailWithMessage("查询失败", c)
 		return
 	}
@@ -135,7 +135,7 @@ func (s *DictionaryDetailApi) GetSysDictionaryDetailList(c *gin.Context) {
 	}
 	list, total, err := dictionaryDetailService.GetSysDictionaryDetailInfoList(pageInfo)
 	if err != nil {
-		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 		return
 	}

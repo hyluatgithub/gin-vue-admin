@@ -1,8 +1,8 @@
 <template>
   <div class="search-component">
-      <div class="gvaIcon gvaIcon-refresh" :class="[reload ? 'reloading' : '']" @click="handleReload" />
-      <Screenfull class="search-icon" />
-      <div class="gvaIcon gvaIcon-customer-service" @click="toService" />
+    <div class="gvaIcon gvaIcon-refresh" :class="[reload ? 'reloading' : '']" @click="handleReload"/>
+    <Screenfull class="search-icon"/>
+    <div class="gvaIcon gvaIcon-customer-service" @click="toService"/>
   </div>
 </template>
 
@@ -14,8 +14,9 @@ export default {
 
 <script setup>
 import Screenfull from '@/view/layout/screenfull/index.vue'
-import { emitter } from '@/utils/bus.js'
-import { ref } from 'vue'
+import {emitter} from '@/utils/bus.js'
+import {ref} from 'vue'
+
 const reload = ref(false)
 const handleReload = () => {
   reload.value = true
@@ -33,12 +34,15 @@ const toService = () => {
 
 .search-component {
   @apply inline-flex overflow-hidden text-center gap-5 mr-5;
-  div{
+
+  div {
     @apply cursor-pointer;
   }
+
   .el-input__inner {
     @apply border-b border-solid border-gray-300;
   }
+
   .el-dropdown-link {
     @apply cursor-pointer;
   }
@@ -49,8 +53,8 @@ const toService = () => {
 }
 
 
-.reloading{
-  animation:turn 0.5s linear infinite;
+.reloading {
+  animation: turn 0.5s linear infinite;
 }
 
 @keyframes turn {

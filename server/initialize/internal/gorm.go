@@ -1,12 +1,13 @@
 package internal
 
 import (
-	"gorm.io/gorm/schema"
 	"log"
 	"os"
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"gorm.io/gorm/schema"
+
+	"gin-vue-admin/server/global"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
@@ -35,13 +36,13 @@ func (g *_gorm) Config(prefix string, singular bool) *gorm.Config {
 		Colorful:      true,
 	})
 	var logMode DBBASE
-	switch global.GVA_CONFIG.System.DbType {
+	switch global.ECOVACS_CONFIG.System.DbType {
 	case "mysql":
-		logMode = &global.GVA_CONFIG.Mysql
+		logMode = &global.ECOVACS_CONFIG.Mysql
 	case "pgsql":
-		logMode = &global.GVA_CONFIG.Pgsql
+		logMode = &global.ECOVACS_CONFIG.Pgsql
 	default:
-		logMode = &global.GVA_CONFIG.Mysql
+		logMode = &global.ECOVACS_CONFIG.Mysql
 	}
 
 	switch logMode.GetLogMode() {

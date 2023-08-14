@@ -4,13 +4,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/request"
 )
 
 // SysAutoCodeHistory 自动迁移代码记录,用于回滚,重放使用
 type SysAutoCodeHistory struct {
-	global.GVA_MODEL
+	global.ECOVACS_MODEL
 	Package       string `json:"package"`
 	BusinessDB    string `json:"businessDB"`
 	TableName     string `json:"tableName"`

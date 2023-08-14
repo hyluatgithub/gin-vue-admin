@@ -2,10 +2,11 @@ package system
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system/response"
 	"path/filepath"
 	"strings"
+
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/system/response"
 )
 
 var AutoCodeSqlite = new(autoCodeSqlite)
@@ -22,9 +23,9 @@ func (a *autoCodeSqlite) GetDB(businessDB string) (data []response.Db, err error
 		File string `gorm:"column:file"`
 	}
 	if businessDB == "" {
-		err = global.GVA_DB.Raw(sql).Find(&databaseList).Error
+		err = global.ECOVACS_DB.Raw(sql).Find(&databaseList).Error
 	} else {
-		err = global.GVA_DBList[businessDB].Raw(sql).Find(&databaseList).Error
+		err = global.ECOVACS_DBList[businessDB].Raw(sql).Find(&databaseList).Error
 	}
 	for _, database := range databaseList {
 		if database.File != "" {
@@ -35,7 +36,7 @@ func (a *autoCodeSqlite) GetDB(businessDB string) (data []response.Db, err error
 			entities = append(entities, response.Db{fileNameWithoutExt})
 		}
 	}
-	// entities = append(entities, response.Db{global.GVA_CONFIG.Sqlite.Dbname})
+	// entities = append(entities, response.Db{global.ECOVACS_CONFIG.Sqlite.Dbname})
 	return entities, err
 }
 
@@ -47,9 +48,9 @@ func (a *autoCodeSqlite) GetTables(businessDB string, dbName string) (data []res
 	sql := `SELECT name FROM sqlite_master WHERE type='table'`
 	tabelNames := []string{}
 	if businessDB == "" {
-		err = global.GVA_DB.Raw(sql).Find(&tabelNames).Error
+		err = global.ECOVACS_DB.Raw(sql).Find(&tabelNames).Error
 	} else {
-		err = global.GVA_DBList[businessDB].Raw(sql).Find(&tabelNames).Error
+		err = global.ECOVACS_DBList[businessDB].Raw(sql).Find(&tabelNames).Error
 	}
 	for _, tabelName := range tabelNames {
 		entities = append(entities, response.Table{tabelName})
@@ -68,9 +69,9 @@ func (a *autoCodeSqlite) GetColumn(businessDB string, tableName string, dbName s
 		Type string `gorm:"column:type"`
 	}
 	if businessDB == "" {
-		err = global.GVA_DB.Raw(sql).Scan(&columnInfos).Error
+		err = global.ECOVACS_DB.Raw(sql).Scan(&columnInfos).Error
 	} else {
-		err = global.GVA_DBList[businessDB].Raw(sql).Scan(&columnInfos).Error
+		err = global.ECOVACS_DBList[businessDB].Raw(sql).Scan(&columnInfos).Error
 	}
 	for _, columnInfo := range columnInfos {
 		entities = append(entities, response.Column{

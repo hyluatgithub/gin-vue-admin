@@ -1,12 +1,12 @@
 package example
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
-	exampleRes "github.com/flipped-aurora/gin-vue-admin/server/model/example/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/request"
+	"gin-vue-admin/server/model/common/response"
+	"gin-vue-admin/server/model/example"
+	exampleRes "gin-vue-admin/server/model/example/response"
+	"gin-vue-admin/server/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -38,7 +38,7 @@ func (e *CustomerApi) CreateExaCustomer(c *gin.Context) {
 	customer.SysUserAuthorityID = utils.GetUserAuthorityId(c)
 	err = customerService.CreateExaCustomer(customer)
 	if err != nil {
-		global.GVA_LOG.Error("创建失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithMessage("创建失败", c)
 		return
 	}
@@ -61,14 +61,14 @@ func (e *CustomerApi) DeleteExaCustomer(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err = utils.Verify(customer.GVA_MODEL, utils.IdVerify)
+	err = utils.Verify(customer.ECOVACS_MODEL, utils.IdVerify)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	err = customerService.DeleteExaCustomer(customer)
 	if err != nil {
-		global.GVA_LOG.Error("删除失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("删除失败!", zap.Error(err))
 		response.FailWithMessage("删除失败", c)
 		return
 	}
@@ -91,7 +91,7 @@ func (e *CustomerApi) UpdateExaCustomer(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err = utils.Verify(customer.GVA_MODEL, utils.IdVerify)
+	err = utils.Verify(customer.ECOVACS_MODEL, utils.IdVerify)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
@@ -103,7 +103,7 @@ func (e *CustomerApi) UpdateExaCustomer(c *gin.Context) {
 	}
 	err = customerService.UpdateExaCustomer(&customer)
 	if err != nil {
-		global.GVA_LOG.Error("更新失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 		return
 	}
@@ -126,14 +126,14 @@ func (e *CustomerApi) GetExaCustomer(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err = utils.Verify(customer.GVA_MODEL, utils.IdVerify)
+	err = utils.Verify(customer.ECOVACS_MODEL, utils.IdVerify)
 	if err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
 	data, err := customerService.GetExaCustomer(customer.ID)
 	if err != nil {
-		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 		return
 	}
@@ -163,7 +163,7 @@ func (e *CustomerApi) GetExaCustomerList(c *gin.Context) {
 	}
 	customerList, total, err := customerService.GetCustomerInfoList(utils.GetUserAuthorityId(c), pageInfo)
 	if err != nil {
-		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败"+err.Error(), c)
 		return
 	}

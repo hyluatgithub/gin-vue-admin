@@ -1,21 +1,21 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading">
-    <div class="gva-table-box">
+    <div class="ecovacs-table-box">
       <warning-bar
-        title="点击“文件名/备注”可以编辑文件名或者备注内容。"
+          title="点击“文件名/备注”可以编辑文件名或者备注内容。"
       />
-      <div class="gva-btn-list">
+      <div class="ecovacs-btn-list">
         <upload-common
-          v-model:imageCommon="imageCommon"
-          @on-success="getTableData"
+            v-model:imageCommon="imageCommon"
+            @on-success="getTableData"
         />
         <upload-image
-          v-model:imageUrl="imageUrl"
-          :file-size="512"
-          :max-w-h="1080"
-          @on-success="getTableData"
+            v-model:imageUrl="imageUrl"
+            :file-size="512"
+            :max-w-h="1080"
+            @on-success="getTableData"
         />
-        <el-input v-model="search.keyword" class="keyword" placeholder="请输入文件名或备注" />
+        <el-input v-model="search.keyword" class="keyword" placeholder="请输入文件名或备注"/>
         <el-button type="primary" icon="search" @click="getTableData">查询</el-button>
       </div>
 
@@ -35,12 +35,12 @@
             <div class="name" @click="editFileNameFunc(scope.row)">{{ scope.row.name }}</div>
           </template>
         </el-table-column>
-        <el-table-column align="left" label="链接" prop="url" min-width="300" />
+        <el-table-column align="left" label="链接" prop="url" min-width="300"/>
         <el-table-column align="left" label="标签" prop="tag" width="100">
           <template #default="scope">
             <el-tag
-              :type="scope.row.tag === 'jpg' ? 'primary' : 'success'"
-              disable-transitions
+                :type="scope.row.tag === 'jpg' ? 'primary' : 'success'"
+                disable-transitions
             >{{ scope.row.tag }}
             </el-tag>
           </template>
@@ -52,16 +52,16 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="gva-pagination">
+      <div class="ecovacs-pagination">
         <el-pagination
-          :current-page="page"
-          :page-size="pageSize"
-          :page-sizes="[10, 30, 50, 100]"
-          :style="{ float: 'right', padding: '20px' }"
-          :total="total"
-          layout="total, sizes, prev, pager, next, jumper"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
+            :current-page="page"
+            :page-size="pageSize"
+            :page-sizes="[10, 30, 50, 100]"
+            :style="{ float: 'right', padding: '20px' }"
+            :total="total"
+            layout="total, sizes, prev, pager, next, jumper"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
         />
       </div>
     </div>
@@ -69,16 +69,16 @@
 </template>
 
 <script setup>
-import { getFileList, deleteFile, editFileName } from '@/api/fileUploadAndDownload'
-import { downloadImage } from '@/utils/downloadImg'
+import {deleteFile, editFileName, getFileList} from '@/api/fileUploadAndDownload'
+import {downloadImage} from '@/utils/downloadImg'
 import CustomPic from '@/components/customPic/index.vue'
 import UploadImage from '@/components/upload/image.vue'
 import UploadCommon from '@/components/upload/common.vue'
-import { formatDate } from '@/utils/format'
+import {formatDate} from '@/utils/format'
 import WarningBar from '@/components/warningBar/warningBar.vue'
 
-import { ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import {ref} from 'vue'
+import {ElMessage, ElMessageBox} from 'element-plus'
 
 const path = ref(import.meta.env.VITE_BASE_API)
 
@@ -103,8 +103,8 @@ const handleCurrentChange = (val) => {
 }
 
 // 查询
-const getTableData = async() => {
-  const table = await getFileList({ page: page.value, pageSize: pageSize.value, ...search.value })
+const getTableData = async () => {
+  const table = await getFileList({page: page.value, pageSize: pageSize.value, ...search.value})
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -114,31 +114,31 @@ const getTableData = async() => {
 }
 getTableData()
 
-const deleteFileFunc = async(row) => {
+const deleteFileFunc = async (row) => {
   ElMessageBox.confirm('此操作将永久删除文件, 是否继续?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   })
-    .then(async() => {
-      const res = await deleteFile(row)
-      if (res.code === 0) {
-        ElMessage({
-          type: 'success',
-          message: '删除成功!',
-        })
-        if (tableData.value.length === 1 && page.value > 1) {
-          page.value--
+      .then(async () => {
+        const res = await deleteFile(row)
+        if (res.code === 0) {
+          ElMessage({
+            type: 'success',
+            message: '删除成功!',
+          })
+          if (tableData.value.length === 1 && page.value > 1) {
+            page.value--
+          }
+          getTableData()
         }
-        getTableData()
-      }
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '已取消删除',
       })
-    })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '已取消删除',
+        })
+      })
 }
 
 const downloadFile = (row) => {
@@ -155,14 +155,14 @@ const downloadFile = (row) => {
  * @param row
  * @returns {Promise<void>}
  */
-const editFileNameFunc = async(row) => {
+const editFileNameFunc = async (row) => {
   ElMessageBox.prompt('请输入文件名或者备注', '编辑', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     inputPattern: /\S/,
     inputErrorMessage: '不能为空',
     inputValue: row.name
-  }).then(async({ value }) => {
+  }).then(async ({value}) => {
     row.name = value
     // console.log(row)
     const res = await editFileName(row)

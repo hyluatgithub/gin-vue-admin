@@ -8,7 +8,7 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"gin-vue-admin/server/global"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -31,7 +31,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if brokenPipe {
-					global.GVA_LOG.Error(c.Request.URL.Path,
+					global.ECOVACS_LOG.Error(c.Request.URL.Path,
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
@@ -42,13 +42,13 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				}
 
 				if stack {
-					global.GVA_LOG.Error("[Recovery from panic]",
+					global.ECOVACS_LOG.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 						zap.String("stack", string(debug.Stack())),
 					)
 				} else {
-					global.GVA_LOG.Error("[Recovery from panic]",
+					global.ECOVACS_LOG.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)

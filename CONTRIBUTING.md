@@ -1,8 +1,10 @@
-
 ### Contributing Guide
+
 #### 1 Issue Guidelines
 
-- Issues are exclusively for bug reports, feature requests and design-related topics. Other questions may be closed directly. If any questions come up when you are using Element, please hit [Gitter](https://gitter.im/element-en/Lobby) for help.
+- Issues are exclusively for bug reports, feature requests and design-related topics. Other questions may be closed
+  directly. If any questions come up when you are using Element, please hit [Gitter](https://gitter.im/element-en/Lobby)
+  for help.
 
 - Before submitting an issue, please check if similar problems have already been issued.
 

@@ -1,42 +1,41 @@
 <template>
-    <div class="border border-solid border-gray-100 h-80">
-      <Toolbar
-          :editor="editorRef"
-          :defaultConfig="toolbarConfig"
-          mode="default"
-      />
-      <Editor
-          class="overflow-y-hidden mt-0.5"
-          style="height: 18rem;"
-          v-model="valueHtml"
-          :defaultConfig="editorConfig"
-          mode="default"
-          @onCreated="handleCreated"
-          @onChange="change"
-      />
-    </div>
+  <div class="border border-solid border-gray-100 h-80">
+    <Toolbar
+        :editor="editorRef"
+        :defaultConfig="toolbarConfig"
+        mode="default"
+    />
+    <Editor
+        class="overflow-y-hidden mt-0.5"
+        style="height: 18rem;"
+        v-model="valueHtml"
+        :defaultConfig="editorConfig"
+        mode="default"
+        @onCreated="handleCreated"
+        @onChange="change"
+    />
+  </div>
 </template>
 
 <script setup>
 
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-
-const basePath = import.meta.env.VITE_BASE_API
-
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import {onBeforeUnmount, ref, shallowRef} from 'vue'
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 
 import {useUserStore} from "@/pinia/modules/user";
 import {ElMessage} from "element-plus";
 import {getUrl} from "@/utils/image";
 
+const basePath = import.meta.env.VITE_BASE_API
+
 const userStore = useUserStore()
 
-const emits = defineEmits(['change','update:modelValue'])
+const emits = defineEmits(['change', 'update:modelValue'])
 
-const change = (editor) =>{
-  emits('change',editor)
-  emits('update:modelValue',valueHtml.value)
+const change = (editor) => {
+  emits('change', editor)
+  emits('update:modelValue', valueHtml.value)
 }
 
 const props = defineProps({
@@ -52,18 +51,18 @@ const valueHtml = ref('')
 const toolbarConfig = {}
 const editorConfig = {
   placeholder: '请输入内容...',
-  MENU_CONF:{}
+  MENU_CONF: {}
 }
 editorConfig.MENU_CONF['uploadImage'] = {
   fieldName: 'file',
   headers: {
     "x-token": userStore.token,
   },
-  server:  basePath + '/fileUploadAndDownload/upload?noSave=1',
-  customInsert(res, insertFn){
-    if(res.code === 0){
+  server: basePath + '/fileUploadAndDownload/upload?noSave=1',
+  customInsert(res, insertFn) {
+    if (res.code === 0) {
       const urlPath = getUrl(res.data.file.url)
-      insertFn(urlPath,res.data.file.name)
+      insertFn(urlPath, res.data.file.name)
       return
     }
     ElMessage.error(res.msg)
@@ -80,7 +79,7 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor) => {
   editorRef.value = editor
-  valueHtml.value =props.modelValue
+  valueHtml.value = props.modelValue
 }
 </script>
 

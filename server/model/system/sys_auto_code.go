@@ -5,7 +5,7 @@ import (
 	"go/token"
 	"strings"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"gin-vue-admin/server/global"
 )
 
 // AutoCodeStruct 初始版本自动化代码工具
@@ -70,10 +70,10 @@ type Field struct {
 	Sort            bool   `json:"sort"`            // 是否增加排序
 }
 
-var ErrAutoMove error = errors.New("创建代码成功并移动文件成功")
+var ErrAutoMove = errors.New("创建代码成功并移动文件成功")
 
 type SysAutoCode struct {
-	global.GVA_MODEL
+	global.ECOVACS_MODEL
 	PackageName string `json:"packageName" gorm:"comment:包名"`
 	Label       string `json:"label" gorm:"comment:展示名"`
 	Desc        string `json:"desc" gorm:"comment:描述"`

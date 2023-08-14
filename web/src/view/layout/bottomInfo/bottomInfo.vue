@@ -4,9 +4,10 @@
   <div class="flex gap-4 items-center text-sm text-gray-500 justify-center mb-4">
     <span>Powered by</span>
     <span>
-      <a class="text-gray-800 font-bold" href="https://github.com/flipped-aurora/gin-vue-admin">{{ $GIN_VUE_ADMIN.appName }}</a>
+      <a class="text-gray-800 font-bold"
+         href="https://github.com/flipped-aurora/gin-vue-admin">{{ $GIN_VUE_ADMIN.appName }}</a>
     </span>
-    <slot />
+    <slot/>
     <span>Copyright</span>
     <span>
       <a class="text-gray-800 font-bold" href="https://github.com/flipped-aurora">flipped-aurora团队</a>
@@ -22,12 +23,12 @@ export default {
 }
 </script>
 
-<script  setup>
+<script setup>
 console.log(
-  `%c powered by %c flipped-aurorae %c`,
-  'background:#0081ff; padding: 1px; border-radius: 3px 0 0 3px; color: #fff',
-  'background:#354855; padding: 1px 5px; border-radius: 0 3px 3px 0; color: #fff; font-weight: bold;',
-  'background:transparent'
+    `%c powered by %c flipped-aurorae %c`,
+    'background:#0081ff; padding: 1px; border-radius: 3px 0 0 3px; color: #fff',
+    'background:#354855; padding: 1px 5px; border-radius: 0 3px 3px 0; color: #fff; font-weight: bold;',
+    'background:transparent'
 )
 </script>
 

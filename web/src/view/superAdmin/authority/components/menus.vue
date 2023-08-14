@@ -1,43 +1,43 @@
 <template>
   <div>
     <div class="sticky top-0.5 z-10 bg-white">
-      <el-input v-model="filterText" class="w-3/5" placeholder="筛选" />
+      <el-input v-model="filterText" class="w-3/5" placeholder="筛选"/>
       <el-button class="float-right" type="primary" @click="relation">确 定</el-button>
     </div>
     <div class="tree-content clear-both">
       <el-tree
-        ref="menuTree"
-        :data="menuTreeData"
-        :default-checked-keys="menuTreeIds"
-        :props="menuDefaultProps"
-        default-expand-all
-        highlight-current
-        node-key="ID"
-        show-checkbox
-        :filter-node-method="filterNode"
-        @check="nodeChange"
+          ref="menuTree"
+          :data="menuTreeData"
+          :default-checked-keys="menuTreeIds"
+          :props="menuDefaultProps"
+          default-expand-all
+          highlight-current
+          node-key="ID"
+          show-checkbox
+          :filter-node-method="filterNode"
+          @check="nodeChange"
       >
         <template #default="{ node , data }">
           <span class="custom-tree-node">
             <span>{{ node.label }}</span>
             <span>
               <el-button
-                type="primary"
-                link
+                  type="primary"
+                  link
 
-                :style="{color:row.defaultRouter === data.name?'#E6A23C':'#85ce61'}"
-                :disabled="!node.checked"
-                @click="() => setDefault(data)"
+                  :style="{color:row.defaultRouter === data.name?'#E6A23C':'#85ce61'}"
+                  :disabled="!node.checked"
+                  @click="() => setDefault(data)"
               >
-                {{ row.defaultRouter === data.name?"首页":"设为首页" }}
+                {{ row.defaultRouter === data.name ? "首页" : "设为首页" }}
               </el-button>
             </span>
             <span v-if="data.menuBtn.length">
               <el-button
-                type="primary"
-                link
+                  type="primary"
+                  link
 
-                @click="() => OpenBtn(data)"
+                  @click="() => OpenBtn(data)"
               >
                 分配按钮
               </el-button>
@@ -48,14 +48,14 @@
     </div>
     <el-dialog v-model="btnVisible" title="分配按钮" destroy-on-close>
       <el-table
-        ref="btnTableRef"
-        :data="btnData"
-        row-key="ID"
-        @selection-change="handleSelectionChange"
+          ref="btnTableRef"
+          :data="btnData"
+          row-key="ID"
+          @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55" />
-        <el-table-column label="按钮名称" prop="name" />
-        <el-table-column label="按钮备注" prop="desc" />
+        <el-table-column type="selection" width="55"/>
+        <el-table-column label="按钮名称" prop="name"/>
+        <el-table-column label="按钮备注" prop="desc"/>
       </el-table>
       <template #footer>
         <div class="dialog-footer">
@@ -68,17 +68,15 @@
 </template>
 
 <script setup>
-import { getBaseMenuTree, getMenuAuthority, addMenuAuthority } from '@/api/menu'
-import {
-  updateAuthority
-} from '@/api/authority'
-import { getAuthorityBtnApi, setAuthorityBtnApi } from '@/api/authorityBtn'
-import { nextTick, ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import {addMenuAuthority, getBaseMenuTree, getMenuAuthority} from '@/api/menu'
+import {updateAuthority} from '@/api/authority'
+import {getAuthorityBtnApi, setAuthorityBtnApi} from '@/api/authorityBtn'
+import {nextTick, ref, watch} from 'vue'
+import {ElMessage} from 'element-plus'
 
 const props = defineProps({
   row: {
-    default: function() {
+    default: function () {
       return {}
     },
     type: Object
@@ -92,16 +90,16 @@ const menuTreeIds = ref([])
 const needConfirm = ref(false)
 const menuDefaultProps = ref({
   children: 'children',
-  label: function(data) {
+  label: function (data) {
     return data.meta.title
   }
 })
 
-const init = async() => {
+const init = async () => {
   // 获取所有菜单树
   const res = await getBaseMenuTree()
   menuTreeData.value = res.data.menus
-  const res1 = await getMenuAuthority({ authorityId: props.row.authorityId })
+  const res1 = await getMenuAuthority({authorityId: props.row.authorityId})
   const menus = res1.data.menus
   const arr = []
   menus.forEach(item => {
@@ -115,10 +113,15 @@ const init = async() => {
 
 init()
 
-const setDefault = async(data) => {
-  const res = await updateAuthority({ authorityId: props.row.authorityId, AuthorityName: props.row.authorityName, parentId: props.row.parentId, defaultRouter: data.name })
+const setDefault = async (data) => {
+  const res = await updateAuthority({
+    authorityId: props.row.authorityId,
+    AuthorityName: props.row.authorityName,
+    parentId: props.row.parentId,
+    defaultRouter: data.name
+  })
   if (res.code === 0) {
-    ElMessage({ type: 'success', message: '设置成功' })
+    ElMessage({type: 'success', message: '设置成功'})
     emit('changeRow', 'defaultRouter', res.data.authority.defaultRouter)
   }
 }
@@ -131,7 +134,7 @@ const enterAndNext = () => {
 }
 // 关联树 确认方法
 const menuTree = ref(null)
-const relation = async() => {
+const relation = async () => {
   const checkArr = menuTree.value.getCheckedNodes(false, true)
   const res = await addMenuAuthority({
     menus: checkArr,
@@ -145,7 +148,7 @@ const relation = async() => {
   }
 }
 
-defineExpose({ enterAndNext, needConfirm })
+defineExpose({enterAndNext, needConfirm})
 
 const btnVisible = ref(false)
 
@@ -153,9 +156,9 @@ const btnData = ref([])
 const multipleSelection = ref([])
 const btnTableRef = ref()
 let menuID = ''
-const OpenBtn = async(data) => {
+const OpenBtn = async (data) => {
   menuID = data.ID
-  const res = await getAuthorityBtnApi({ menuID: menuID, authorityId: props.row.authorityId })
+  const res = await getAuthorityBtnApi({menuID: menuID, authorityId: props.row.authorityId})
   if (res.code === 0) {
     openDialog(data)
     await nextTick()
@@ -183,7 +186,7 @@ const openDialog = (data) => {
 const closeDialog = () => {
   btnVisible.value = false
 }
-const enterDialog = async() => {
+const enterDialog = async () => {
   const selected = multipleSelection.value.map(item => item.ID)
   const res = await setAuthorityBtnApi({
     menuID,
@@ -191,7 +194,7 @@ const enterDialog = async() => {
     authorityId: props.row.authorityId
   })
   if (res.code === 0) {
-    ElMessage({ type: 'success', message: '设置成功' })
+    ElMessage({type: 'success', message: '设置成功'})
     btnVisible.value = false
   }
 }
@@ -216,8 +219,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-tree-node{
-  span+span{
+.custom-tree-node {
+  span + span {
     @apply ml-3;
   }
 }

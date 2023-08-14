@@ -4,9 +4,9 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/request"
+	"gin-vue-admin/server/model/system"
 	"gorm.io/gorm"
 )
 
@@ -27,7 +27,7 @@ func (menuService *MenuService) getMenuTreeMap(authorityId uint) (treeMap map[st
 	treeMap = make(map[string][]system.SysMenu)
 
 	var SysAuthorityMenus []system.SysAuthorityMenu
-	err = global.GVA_DB.Where("sys_authority_authority_id = ?", authorityId).Find(&SysAuthorityMenus).Error
+	err = global.ECOVACS_DB.Where("sys_authority_authority_id = ?", authorityId).Find(&SysAuthorityMenus).Error
 	if err != nil {
 		return
 	}
@@ -38,7 +38,7 @@ func (menuService *MenuService) getMenuTreeMap(authorityId uint) (treeMap map[st
 		MenuIds = append(MenuIds, SysAuthorityMenus[i].MenuId)
 	}
 
-	err = global.GVA_DB.Where("id in (?)", MenuIds).Order("sort").Preload("Parameters").Find(&baseMenu).Error
+	err = global.ECOVACS_DB.Where("id in (?)", MenuIds).Order("sort").Preload("Parameters").Find(&baseMenu).Error
 	if err != nil {
 		return
 	}
@@ -52,7 +52,7 @@ func (menuService *MenuService) getMenuTreeMap(authorityId uint) (treeMap map[st
 		})
 	}
 
-	err = global.GVA_DB.Where("authority_id = ?", authorityId).Preload("SysBaseMenuBtn").Find(&btns).Error
+	err = global.ECOVACS_DB.Where("authority_id = ?", authorityId).Preload("SysBaseMenuBtn").Find(&btns).Error
 	if err != nil {
 		return
 	}
@@ -135,10 +135,10 @@ func (menuService *MenuService) getBaseChildrenList(menu *system.SysBaseMenu, tr
 //@return: error
 
 func (menuService *MenuService) AddBaseMenu(menu system.SysBaseMenu) error {
-	if !errors.Is(global.GVA_DB.Where("name = ?", menu.Name).First(&system.SysBaseMenu{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.ECOVACS_DB.Where("name = ?", menu.Name).First(&system.SysBaseMenu{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("存在重复name，请修改name")
 	}
-	return global.GVA_DB.Create(&menu).Error
+	return global.ECOVACS_DB.Create(&menu).Error
 }
 
 //@author: [piexlmax](https://github.com/piexlmax)
@@ -149,7 +149,7 @@ func (menuService *MenuService) AddBaseMenu(menu system.SysBaseMenu) error {
 func (menuService *MenuService) getBaseMenuTreeMap() (treeMap map[string][]system.SysBaseMenu, err error) {
 	var allMenus []system.SysBaseMenu
 	treeMap = make(map[string][]system.SysBaseMenu)
-	err = global.GVA_DB.Order("sort").Preload("MenuBtn").Preload("Parameters").Find(&allMenus).Error
+	err = global.ECOVACS_DB.Order("sort").Preload("MenuBtn").Preload("Parameters").Find(&allMenus).Error
 	for _, v := range allMenus {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
 	}
@@ -193,7 +193,7 @@ func (menuService *MenuService) AddMenuAuthority(menus []system.SysBaseMenu, aut
 func (menuService *MenuService) GetMenuAuthority(info *request.GetAuthorityId) (menus []system.SysMenu, err error) {
 	var baseMenu []system.SysBaseMenu
 	var SysAuthorityMenus []system.SysAuthorityMenu
-	err = global.GVA_DB.Where("sys_authority_authority_id = ?", info.AuthorityId).Find(&SysAuthorityMenus).Error
+	err = global.ECOVACS_DB.Where("sys_authority_authority_id = ?", info.AuthorityId).Find(&SysAuthorityMenus).Error
 	if err != nil {
 		return
 	}
@@ -204,7 +204,7 @@ func (menuService *MenuService) GetMenuAuthority(info *request.GetAuthorityId) (
 		MenuIds = append(MenuIds, SysAuthorityMenus[i].MenuId)
 	}
 
-	err = global.GVA_DB.Where("id in (?) ", MenuIds).Order("sort").Find(&baseMenu).Error
+	err = global.ECOVACS_DB.Where("id in (?) ", MenuIds).Order("sort").Find(&baseMenu).Error
 
 	for i := range baseMenu {
 		menus = append(menus, system.SysMenu{
@@ -215,20 +215,21 @@ func (menuService *MenuService) GetMenuAuthority(info *request.GetAuthorityId) (
 		})
 	}
 	// sql := "SELECT authority_menu.keep_alive,authority_menu.default_menu,authority_menu.created_at,authority_menu.updated_at,authority_menu.deleted_at,authority_menu.menu_level,authority_menu.parent_id,authority_menu.path,authority_menu.`name`,authority_menu.hidden,authority_menu.component,authority_menu.title,authority_menu.icon,authority_menu.sort,authority_menu.menu_id,authority_menu.authority_id FROM authority_menu WHERE authority_menu.authority_id = ? ORDER BY authority_menu.sort ASC"
-	// err = global.GVA_DB.Raw(sql, authorityId).Scan(&menus).Error
+	// err = global.ECOVACS_DB.Raw(sql, authorityId).Scan(&menus).Error
 	return menus, err
 }
 
 // UserAuthorityDefaultRouter 用户角色默认路由检查
-//  Author [SliverHorn](https://github.com/SliverHorn)
+//
+//	Author [SliverHorn](https://github.com/SliverHorn)
 func (menuService *MenuService) UserAuthorityDefaultRouter(user *system.SysUser) {
 	var menuIds []string
-	err := global.GVA_DB.Model(&system.SysAuthorityMenu{}).Where("sys_authority_authority_id = ?", user.AuthorityId).Pluck("sys_base_menu_id", &menuIds).Error
+	err := global.ECOVACS_DB.Model(&system.SysAuthorityMenu{}).Where("sys_authority_authority_id = ?", user.AuthorityId).Pluck("sys_base_menu_id", &menuIds).Error
 	if err != nil {
 		return
 	}
 	var am system.SysBaseMenu
-	err = global.GVA_DB.First(&am, "name = ? and id in (?)", user.Authority.DefaultRouter, menuIds).Error
+	err = global.ECOVACS_DB.First(&am, "name = ? and id in (?)", user.Authority.DefaultRouter, menuIds).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		user.Authority.DefaultRouter = "404"
 	}

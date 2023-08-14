@@ -23,7 +23,7 @@ yarn-error.log*
 *.sw?
 
 /server/log/
-/server/gva
+/server/ecovacs
 /server/latest_log
 
 *.iml

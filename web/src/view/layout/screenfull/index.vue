@@ -1,7 +1,7 @@
 <template>
   <div @click="clickFull">
-    <div v-if="isShow" class="gvaIcon gvaIcon-fullscreen-expand" />
-    <div v-else class="gvaIcon gvaIcon-fullscreen-shrink" />
+    <div v-if="isShow" class="gvaIcon gvaIcon-fullscreen-expand"/>
+    <div v-else class="gvaIcon gvaIcon-fullscreen-shrink"/>
   </div>
 </template>
 
@@ -13,7 +13,8 @@ export default {
 
 <script setup>
 import screenfull from 'screenfull' // 引入screenfull
-import { onMounted, onUnmounted, ref } from 'vue'
+import {onMounted, onUnmounted, ref} from 'vue'
+
 defineProps({
   width: {
     type: Number,

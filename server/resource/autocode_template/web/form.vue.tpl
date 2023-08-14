@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="gva-form-box">
+    <div class="ecovacs-form-box">
       <el-form :model="formData" ref="elFormRef" label-position="right" :rules="rule" label-width="80px">
       {{- range .Fields}}
         <el-form-item label="{{.FieldDesc}}:" prop="{{.FieldJson}}">

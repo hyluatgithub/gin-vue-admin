@@ -7,18 +7,18 @@ networks:
       driver: default
       config:
         - subnet: '177.7.0.0/16'
-        
+
 # 设置mysql，redis持久化保存
 volumes:
   mysql:
   redis:
-  
+
 services:
   web:
     build:
       context: ../../web
       dockerfile: ./Dockerfile
-    container_name: gva-web
+    container_name: ecovacs-web
     restart: always
     ports:
       - '8080:8080'
@@ -33,7 +33,7 @@ services:
     build:
       context: ../../server
       dockerfile: ./Dockerfile
-    container_name: gva-server
+    container_name: ecovacs-server
     restart: always
     ports:
       - '8888:8888'
@@ -49,7 +49,7 @@ services:
 
   mysql:
     image: mysql:8.0.21       # 如果您是 arm64 架构：如 MacOS 的 M1，请修改镜像为 image: mysql/mysql-server:8.0.21
-    container_name: gva-mysql
+    container_name: ecovacs-mysql
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci #设置utf8字符集
     restart: always
     ports:
@@ -57,7 +57,7 @@ services:
     environment:
       #MYSQL_ROOT_PASSWORD: 'Aa@6447985' # root管理员用户密码
       MYSQL_DATABASE: 'qmPlus' # 初始化启动时要创建的数据库的名称
-      MYSQL_USER: 'gva'
+      MYSQL_USER: 'ecovacs'
       MYSQL_PASSWORD: 'Aa@6447985'
     volumes:
       - mysql:/var/lib/mysql
@@ -67,7 +67,7 @@ services:
 
   redis:
     image: redis:6.0.6
-    container_name: gva-redis # 容器名
+    container_name: ecovacs-redis # 容器名
     restart: always
     ports:
       - '16379:6379'

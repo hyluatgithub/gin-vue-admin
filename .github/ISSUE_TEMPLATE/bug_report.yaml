@@ -1,7 +1,7 @@
 name: 🐛 Bug report
 description: Report a bug to help us improve Gin-Vue-Admin
 title: "[Bug]: "
-labels: [bug]
+labels: [ bug ]
 assignees:
   - piexlmax
   - songzhibin97
@@ -9,7 +9,7 @@ assignees:
   - bypanghu
 body:
   - type: input
-    id: gva
+    id: ecovacs
     attributes:
       label: gin-vue-admin 版本
       description: 请输入您当前使用的项目版本?

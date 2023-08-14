@@ -1,8 +1,8 @@
 package system
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system/response"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/system/response"
 )
 
 type Database interface {
@@ -14,7 +14,7 @@ type Database interface {
 func (autoCodeService *AutoCodeService) Database(businessDB string) Database {
 
 	if businessDB == "" {
-		switch global.GVA_CONFIG.System.DbType {
+		switch global.ECOVACS_CONFIG.System.DbType {
 		case "mysql":
 			return AutoCodeMysql
 		case "pgsql":
@@ -25,7 +25,7 @@ func (autoCodeService *AutoCodeService) Database(businessDB string) Database {
 			return AutoCodeMysql
 		}
 	} else {
-		for _, info := range global.GVA_CONFIG.DBList {
+		for _, info := range global.ECOVACS_CONFIG.DBList {
 			if info.AliasName == businessDB {
 				switch info.Type {
 				case "mysql":

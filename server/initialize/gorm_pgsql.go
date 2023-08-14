@@ -1,9 +1,9 @@
 package initialize
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/initialize/internal"
+	"gin-vue-admin/server/config"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/initialize/internal"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -12,7 +12,7 @@ import (
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
 func GormPgSql() *gorm.DB {
-	p := global.GVA_CONFIG.Pgsql
+	p := global.ECOVACS_CONFIG.Pgsql
 	if p.Dbname == "" {
 		return nil
 	}

@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="gva-search-box">
+    <div class="ecovacs-search-box">
       <el-form :inline="true" :model="searchInfo">
         <el-form-item label="请求方法">
-          <el-input v-model="searchInfo.method" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.method" placeholder="搜索条件"/>
         </el-form-item>
         <el-form-item label="请求路径">
-          <el-input v-model="searchInfo.path" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.path" placeholder="搜索条件"/>
         </el-form-item>
         <el-form-item label="结果状态码">
-          <el-input v-model="searchInfo.status" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.status" placeholder="搜索条件"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="search" @click="onSubmit">查询</el-button>
@@ -17,8 +17,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="gva-table-box">
-      <div class="gva-btn-list">
+    <div class="ecovacs-table-box">
+      <div class="ecovacs-btn-list">
 
         <el-popover v-model="deleteVisible" placement="top" width="160">
           <p>确定要删除吗？</p>
@@ -27,19 +27,21 @@
             <el-button type="primary" @click="onDelete">确定</el-button>
           </div>
           <template #reference>
-            <el-button icon="delete" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="deleteVisible = true">删除</el-button>
+            <el-button icon="delete" style="margin-left: 10px;" :disabled="!multipleSelection.length"
+                       @click="deleteVisible = true">删除
+            </el-button>
           </template>
         </el-popover>
       </div>
       <el-table
-        ref="multipleTable"
-        :data="tableData"
-        style="width: 100%"
-        tooltip-effect="dark"
-        row-key="ID"
-        @selection-change="handleSelectionChange"
+          ref="multipleTable"
+          :data="tableData"
+          style="width: 100%"
+          tooltip-effect="dark"
+          row-key="ID"
+          @selection-change="handleSelectionChange"
       >
-        <el-table-column align="left" type="selection" width="55" />
+        <el-table-column align="left" type="selection" width="55"/>
         <el-table-column align="left" label="操作人" width="140">
           <template #default="scope">
             <div>{{ scope.row.user.userName }}({{ scope.row.user.nickName }})</div>
@@ -55,9 +57,9 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="left" label="请求IP" prop="ip" width="120" />
-        <el-table-column align="left" label="请求方法" prop="method" width="120" />
-        <el-table-column align="left" label="请求路径" prop="path" width="240" />
+        <el-table-column align="left" label="请求IP" prop="ip" width="120"/>
+        <el-table-column align="left" label="请求方法" prop="method" width="120"/>
+        <el-table-column align="left" label="请求路径" prop="path" width="240"/>
         <el-table-column align="left" label="请求" prop="path" width="80">
           <template #default="scope">
             <div>
@@ -66,7 +68,9 @@
                   <pre>{{ fmtBody(scope.row.body) }}</pre>
                 </div>
                 <template #reference>
-                  <el-icon style="cursor: pointer;"><warning /></el-icon>
+                  <el-icon style="cursor: pointer;">
+                    <warning/>
+                  </el-icon>
                 </template>
               </el-popover>
 
@@ -82,7 +86,9 @@
                   <pre>{{ fmtBody(scope.row.resp) }}</pre>
                 </div>
                 <template #reference>
-                  <el-icon style="cursor: pointer;"><warning /></el-icon>
+                  <el-icon style="cursor: pointer;">
+                    <warning/>
+                  </el-icon>
                 </template>
               </el-popover>
               <span v-else>无</span>
@@ -104,15 +110,15 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="gva-pagination">
+      <div class="ecovacs-pagination">
         <el-pagination
-          :current-page="page"
-          :page-size="pageSize"
-          :page-sizes="[10, 30, 50, 100]"
-          :total="total"
-          layout="total, sizes, prev, pager, next, jumper"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
+            :current-page="page"
+            :page-size="pageSize"
+            :page-sizes="[10, 30, 50, 100]"
+            :total="total"
+            layout="total, sizes, prev, pager, next, jumper"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
         />
       </div>
     </div>
@@ -122,12 +128,12 @@
 <script setup>
 import {
   deleteSysOperationRecord,
-  getSysOperationRecordList,
-  deleteSysOperationRecordByIds
+  deleteSysOperationRecordByIds,
+  getSysOperationRecordList
 } from '@/api/sysOperationRecord' // 此处请自行替换地址
-import { formatDate } from '@/utils/format'
-import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import {formatDate} from '@/utils/format'
+import {ref} from 'vue'
+import {ElMessage} from 'element-plus'
 
 const page = ref(1)
 const total = ref(0)
@@ -159,7 +165,7 @@ const handleCurrentChange = (val) => {
 }
 
 // 查询
-const getTableData = async() => {
+const getTableData = async () => {
   const table = await getSysOperationRecordList({
     page: page.value,
     pageSize: pageSize.value,
@@ -180,13 +186,13 @@ const multipleSelection = ref([])
 const handleSelectionChange = (val) => {
   multipleSelection.value = val
 }
-const onDelete = async() => {
+const onDelete = async () => {
   const ids = []
   multipleSelection.value &&
-        multipleSelection.value.forEach(item => {
-          ids.push(item.ID)
-        })
-  const res = await deleteSysOperationRecordByIds({ ids })
+  multipleSelection.value.forEach(item => {
+    ids.push(item.ID)
+  })
+  const res = await deleteSysOperationRecordByIds({ids})
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -199,9 +205,9 @@ const onDelete = async() => {
     getTableData()
   }
 }
-const deleteSysOperationRecordFunc = async(row) => {
+const deleteSysOperationRecordFunc = async (row) => {
   row.visible = false
-  const res = await deleteSysOperationRecord({ ID: row.ID })
+  const res = await deleteSysOperationRecord({ID: row.ID})
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -234,9 +240,11 @@ export default {
 .table-expand {
   padding-left: 60px;
   font-size: 0;
+
   label {
     width: 90px;
     color: #99a9bf;
+
     .el-form-item {
       margin-right: 0;
       margin-bottom: 0;
@@ -244,6 +252,7 @@ export default {
     }
   }
 }
+
 .popover-box {
   background: #112435;
   color: #f08047;
@@ -251,6 +260,7 @@ export default {
   width: 420px;
   overflow: auto;
 }
+
 .popover-box::-webkit-scrollbar {
   display: none; /* Chrome Safari */
 }

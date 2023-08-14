@@ -1,21 +1,22 @@
 <template>
   <div>
-    <span class="gva-icon" style="position: absolute; z-index: 9999; padding: 3px 10px 0; ">
+    <span class="ecovacs-icon" style="position: absolute; z-index: 9999; padding: 3px 10px 0; ">
       <el-icon>
-        <component :is="metaData.icon" />
+        <component :is="metaData.icon"/>
       </el-icon>
     </span>
-    <el-select v-model="metaData.icon" style="width:100%" clearable filterable class="gva-select" placeholder="请选择">
+    <el-select v-model="metaData.icon" style="width:100%" clearable filterable class="ecovacs-select"
+               placeholder="请选择">
       <el-option
-        v-for="item in options"
-        :key="item.key"
-        class="select__option_item"
-        :label="item.key"
-        :value="item.key"
+          v-for="item in options"
+          :key="item.key"
+          class="select__option_item"
+          :label="item.key"
+          :value="item.key"
       >
-        <span class="gva-icon" style=" padding: 3px 0 0; " :class="item.label">
+        <span class="ecovacs-icon" style=" padding: 3px 0 0; " :class="item.label">
           <el-icon>
-            <component :is="item.label" />
+            <component :is="item.label"/>
           </el-icon>
         </span>
         <span style="text-align: left">{{ item.key }}</span>
@@ -25,11 +26,11 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import {reactive, ref} from 'vue'
 
 const props = defineProps({
   meta: {
-    default: function() {
+    default: function () {
       return {}
     },
     type: Object,
@@ -1172,13 +1173,13 @@ export default {
 </script>
 
 <style lang="scss">
-.gva-icon {
+.ecovacs-icon {
   color: rgb(132, 146, 166);
   font-size: 14px;
   margin-right: 10px;
 }
 
-.gva-select .el-input__inner {
+.ecovacs-select .el-input__inner {
   padding: 0 30px !important
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="break-point">
-    <div class="gva-table-box">
+    <div class="ecovacs-table-box">
       <el-divider content-position="left">大文件上传</el-divider>
       <form id="fromCont" method="post">
         <div class="fileUpload" @click="inputChange">
@@ -14,15 +14,17 @@
         <transition name="list" tag="p">
           <div v-if="file" class="list-item">
             <el-icon>
-              <document />
+              <document/>
             </el-icon>
             <span>{{ file.name }}</span>
             <span class="percentage">{{ percentage }}%</span>
-            <el-progress :show-text="false" :text-inside="false" :stroke-width="2" :percentage="percentage" />
+            <el-progress :show-text="false" :text-inside="false" :stroke-width="2" :percentage="percentage"/>
           </div>
         </transition>
       </div>
-      <div class="tips">此版本为先行体验功能测试版，样式美化和性能优化正在进行中，上传切片文件和合成的完整文件分别再QMPlusserver目录的breakpointDir文件夹和fileDir文件夹</div>
+      <div class="tips">
+        此版本为先行体验功能测试版，样式美化和性能优化正在进行中，上传切片文件和合成的完整文件分别再QMPlusserver目录的breakpointDir文件夹和fileDir文件夹
+      </div>
     </div>
   </div>
 
@@ -30,14 +32,9 @@
 
 <script setup>
 import SparkMD5 from 'spark-md5'
-import {
-  findFile,
-  breakpointContinueFinish,
-  removeChunk,
-  breakpointContinue
-} from '@/api/breakpoint'
-import { ref, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import {breakpointContinue, breakpointContinueFinish, findFile, removeChunk} from '@/api/breakpoint'
+import {ref, watch} from 'vue'
+import {ElMessage} from 'element-plus'
 
 const file = ref(null)
 const fileMd5 = ref('')
@@ -49,7 +46,7 @@ const percentage = ref(0)
 const percentageFlage = ref(true)
 
 // 选中文件的函数
-const choseFile = async(e) => {
+const choseFile = async (e) => {
   const fileR = new FileReader() // 创建一个reader用来读取文件流
   const fileInput = e.target.files[0] // 获取当前文件
   const maxSize = 5 * 1024 * 1024
@@ -78,7 +75,7 @@ const choseFile = async(e) => {
         formData.append('file', fileSlice) // 当前的切片
         formData.append('chunkNumber', i) // 当前是第几片
         formData.append('fileName', file.value.name) // 当前文件的文件名 用于后端文件切片的命名  formData.appen 为 formData对象添加参数的方法
-        formDataList.value.push({ key: i, formData }) // 把当前切片信息 自己是第几片 存入我们方才准备好的池子
+        formDataList.value.push({key: i, formData}) // 把当前切片信息 自己是第几片 存入我们方才准备好的池子
         i++
       }
       const params = {
@@ -94,7 +91,7 @@ const choseFile = async(e) => {
         // 当是断点续传时候
         waitUpLoad.value = formDataList.value.filter(all => {
           return !(
-            finishList &&
+              finishList &&
               finishList.some(fi => fi.FileChunkNumber === all.key)
           ) // 找出需要上传的切片
         })
@@ -125,24 +122,26 @@ const getFile = () => {
 
 const sliceFile = () => {
   waitUpLoad.value &&
-        waitUpLoad.value.forEach(item => {
-          // 需要上传的切片
-          item.formData.append('chunkTotal', formDataList.value.length) // 切片总数携带给后台 总有用的
-          const fileR = new FileReader() // 功能同上
-          const fileF = item.formData.get('file')
-          fileR.readAsArrayBuffer(fileF)
-          fileR.onload = e => {
-            const spark = new SparkMD5.ArrayBuffer()
-            spark.append(e.target.result)
-            item.formData.append('chunkMd5', spark.end()) // 获取当前切片md5 后端用于验证切片完整性
-            upLoadFileSlice(item)
-          }
-        })
+  waitUpLoad.value.forEach(item => {
+    // 需要上传的切片
+    item.formData.append('chunkTotal', formDataList.value.length) // 切片总数携带给后台 总有用的
+    const fileR = new FileReader() // 功能同上
+    const fileF = item.formData.get('file')
+    fileR.readAsArrayBuffer(fileF)
+    fileR.onload = e => {
+      const spark = new SparkMD5.ArrayBuffer()
+      spark.append(e.target.result)
+      item.formData.append('chunkMd5', spark.end()) // 获取当前切片md5 后端用于验证切片完整性
+      upLoadFileSlice(item)
+    }
+  })
 }
 
-watch(() => waitNum.value, () => { percentage.value = Math.floor(((formDataList.value.length - waitNum.value) / formDataList.value.length) * 100) })
+watch(() => waitNum.value, () => {
+  percentage.value = Math.floor(((formDataList.value.length - waitNum.value) / formDataList.value.length) * 100)
+})
 
-const upLoadFileSlice = async(item) => {
+const upLoadFileSlice = async (item) => {
   // 切片上传
   const fileRe = await breakpointContinue(item.formData)
   if (fileRe.code !== 0) {
@@ -186,80 +185,95 @@ export default {
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
-#fromCont{
+
+#fromCont {
   display: inline-block;
 }
-.fileUpload{
-    padding: 3px 10px;
-    font-size: 12px;
-    height: 20px;
-    line-height: 20px;
-    position: relative;
-    cursor: pointer;
-    color: #000;
-    border: 1px solid #c1c1c1;
-    border-radius: 4px;
-    overflow: hidden;
-    display: inline-block;
-    input{
-      position: absolute;
-      font-size: 100px;
-      right: 0;
-      top: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-}
- .fileName{
-    display: inline-block;
-    vertical-align: top;
-    margin: 6px 15px 0 15px;
-  }
-  .uploadBtn{
-    position: relative;
-    top: -10px;
-    margin-left: 15px;
-  }
-  .tips{
-    margin-top: 30px;
-    font-size: 14px;
-    font-weight: 400;
-    color: #606266;
-  }
-  .el-divider{
-    margin: 0 0 30px 0;
-  }
 
- .list{
-   margin-top:15px;
- }
- .list-item {
+.fileUpload {
+  padding: 3px 10px;
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  position: relative;
+  cursor: pointer;
+  color: #000;
+  border: 1px solid #c1c1c1;
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-block;
+
+  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.fileName {
+  display: inline-block;
+  vertical-align: top;
+  margin: 6px 15px 0 15px;
+}
+
+.uploadBtn {
+  position: relative;
+  top: -10px;
+  margin-left: 15px;
+}
+
+.tips {
+  margin-top: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #606266;
+}
+
+.el-divider {
+  margin: 0 0 30px 0;
+}
+
+.list {
+  margin-top: 15px;
+}
+
+.list-item {
   display: block;
   margin-right: 10px;
   color: #606266;
   line-height: 25px;
   margin-bottom: 5px;
   width: 40%;
-   .percentage{
-          float: right;
-        }
+
+  .percentage {
+    float: right;
+  }
 }
+
 .list-enter-active, .list-leave-active {
   transition: all 1s;
 }
+
 .list-enter, .list-leave-to
-/* .list-leave-active for below version 2.1.8 */ {
+  /* .list-leave-active for below version 2.1.8 */
+{
   opacity: 0;
   transform: translateY(-30px);
 }

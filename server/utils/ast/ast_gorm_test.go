@@ -1,9 +1,10 @@
 package ast
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
 	"testing"
+
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/example"
 )
 
 const A = 123

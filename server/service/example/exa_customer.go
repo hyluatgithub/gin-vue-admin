@@ -1,11 +1,11 @@
 package example
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
-	systemService "github.com/flipped-aurora/gin-vue-admin/server/service/system"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/request"
+	"gin-vue-admin/server/model/example"
+	"gin-vue-admin/server/model/system"
+	systemService "gin-vue-admin/server/service/system"
 )
 
 type CustomerService struct{}
@@ -17,7 +17,7 @@ type CustomerService struct{}
 //@return: err error
 
 func (exa *CustomerService) CreateExaCustomer(e example.ExaCustomer) (err error) {
-	err = global.GVA_DB.Create(&e).Error
+	err = global.ECOVACS_DB.Create(&e).Error
 	return err
 }
 
@@ -28,7 +28,7 @@ func (exa *CustomerService) CreateExaCustomer(e example.ExaCustomer) (err error)
 //@return: err error
 
 func (exa *CustomerService) DeleteExaCustomer(e example.ExaCustomer) (err error) {
-	err = global.GVA_DB.Delete(&e).Error
+	err = global.ECOVACS_DB.Delete(&e).Error
 	return err
 }
 
@@ -39,7 +39,7 @@ func (exa *CustomerService) DeleteExaCustomer(e example.ExaCustomer) (err error)
 //@return: err error
 
 func (exa *CustomerService) UpdateExaCustomer(e *example.ExaCustomer) (err error) {
-	err = global.GVA_DB.Save(e).Error
+	err = global.ECOVACS_DB.Save(e).Error
 	return err
 }
 
@@ -50,7 +50,7 @@ func (exa *CustomerService) UpdateExaCustomer(e *example.ExaCustomer) (err error
 //@return: customer model.ExaCustomer, err error
 
 func (exa *CustomerService) GetExaCustomer(id uint) (customer example.ExaCustomer, err error) {
-	err = global.GVA_DB.Where("id = ?", id).First(&customer).Error
+	err = global.ECOVACS_DB.Where("id = ?", id).First(&customer).Error
 	return
 }
 
@@ -63,7 +63,7 @@ func (exa *CustomerService) GetExaCustomer(id uint) (customer example.ExaCustome
 func (exa *CustomerService) GetCustomerInfoList(sysUserAuthorityID uint, info request.PageInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-	db := global.GVA_DB.Model(&example.ExaCustomer{})
+	db := global.ECOVACS_DB.Model(&example.ExaCustomer{})
 	var a system.SysAuthority
 	a.AuthorityId = sysUserAuthorityID
 	auth, err := systemService.AuthorityServiceApp.GetAuthorityInfo(a)

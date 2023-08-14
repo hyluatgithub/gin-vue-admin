@@ -7,11 +7,11 @@ metadata:
     github: "https://github.com/flipped-aurora/gin-vue-admin.git"
     app.kubernetes.io/version: 0.0.1
   labels:
-    app: gva-server
-    version: gva-vue3
+    app: ecovacs-server
+    version: ecovacs-vue3
 data:
   config.yaml: |
-    # github.com/flipped-aurora/gin-vue-admin/server Global Configuration
+    # gin-vue-admin/server Global Configuration
 
     # jwt configuration
     jwt:
@@ -23,7 +23,7 @@ data:
     zap:
       level: 'info'
       format: 'console'
-      prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
+      prefix: '[gin-vue-admin/server]'
       director: 'log'
       link-name: 'latest_log'
       show-line: true
@@ -126,7 +126,7 @@ data:
       secret-id: 'xxxxxxxx'
       secret-key: 'xxxxxxxx'
       base-url: 'https://gin.vue.admin'
-      path-prefix: 'github.com/flipped-aurora/gin-vue-admin/server'
+      path-prefix: 'gin-vue-admin/server'
 
     # excel configuration
     excel:

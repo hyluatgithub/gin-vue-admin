@@ -6,11 +6,11 @@ BUILD_IMAGE_SERVER  = golang:1.18
 #请选择node版本
 BUILD_IMAGE_WEB     = node:16
 #项目名称
-PROJECT_NAME        = github.com/flipped-aurora/gin-vue-admin/server
+PROJECT_NAME        = gin-vue-admin/server
 #配置文件目录
 CONFIG_FILE         = config.yaml
 #镜像仓库命名空间
-IMAGE_NAME          = gva
+IMAGE_NAME          = ecovacs
 #镜像地址
 REPOSITORY          = registry.cn-hangzhou.aliyuncs.com/${IMAGE_NAME}
 

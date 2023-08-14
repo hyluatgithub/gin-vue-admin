@@ -1,44 +1,44 @@
 ﻿<template>
   <div class="router-history">
     <el-tabs
-      v-model="activeValue"
-      :closable="!(historys.length === 1 && $route.name === defaultRouter)"
-      type="card"
-      @contextmenu.prevent="openContextMenu($event)"
-      @tab-click="changeTab"
-      @tab-remove="removeTab"
+        v-model="activeValue"
+        :closable="!(historys.length === 1 && $route.name === defaultRouter)"
+        type="card"
+        @contextmenu.prevent="openContextMenu($event)"
+        @tab-click="changeTab"
+        @tab-remove="removeTab"
     >
       <el-tab-pane
-        v-for="item in historys"
-        :key="name(item)"
-        :label="item.meta.title"
-        :name="name(item)"
-        :tab="item"
-        class="gva-tab"
+          v-for="item in historys"
+          :key="name(item)"
+          :label="item.meta.title"
+          :name="name(item)"
+          :tab="item"
+          class="ecovacs-tab"
       >
         <template #label>
           <span
-            :tab="item"
-            :style="{
+              :tab="item"
+              :style="{
               color: activeValue === name(item) ? userStore.activeColor : '#333',
             }"
           ><i
-             class="dot"
-             :style="{
+              class="dot"
+              :style="{
                backgroundColor:
                  activeValue === name(item) ? userStore.activeColor : '#ddd',
              }"
-           />
-            {{ fmtTitle(item.meta.title,item) }}</span>
+          />
+            {{ fmtTitle(item.meta.title, item) }}</span>
         </template>
       </el-tab-pane>
     </el-tabs>
 
     <!--自定义右键菜单html代码-->
     <ul
-      v-show="contextMenuVisible"
-      :style="{ left: left + 'px', top: top + 'px' }"
-      class="contextmenu"
+        v-show="contextMenuVisible"
+        :style="{ left: left + 'px', top: top + 'px' }"
+        class="contextmenu"
     >
       <li @click="closeAll">关闭所有</li>
       <li @click="closeLeft">关闭左侧</li>
@@ -55,11 +55,11 @@ export default {
 </script>
 
 <script setup>
-import { emitter } from '@/utils/bus.js'
-import { computed, onUnmounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '@/pinia/modules/user'
-import { fmtTitle } from '@/utils/fmtRouterTitle'
+import {emitter} from '@/utils/bus.js'
+import {computed, onUnmounted, ref, watch} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import {useUserStore} from '@/pinia/modules/user'
+import {fmtTitle} from '@/utils/fmtRouterTitle'
 
 const route = useRoute()
 const router = useRouter()
@@ -76,7 +76,7 @@ const userStore = useUserStore()
 
 const name = (item) => {
   return (
-    item.name + JSON.stringify(item.query) + JSON.stringify(item.params)
+      item.name + JSON.stringify(item.query) + JSON.stringify(item.params)
   )
 }
 
@@ -88,8 +88,8 @@ const rightActive = ref('')
 const defaultRouter = computed(() => userStore.userInfo.authority.defaultRouter)
 const openContextMenu = (e) => {
   if (
-    historys.value.length === 1 &&
-        route.name === defaultRouter.value
+      historys.value.length === 1 &&
+      route.name === defaultRouter.value
   ) {
     return false
   }
@@ -126,7 +126,7 @@ const closeAll = () => {
       params: {},
     },
   ]
-  router.push({ name: defaultRouter.value })
+  router.push({name: defaultRouter.value})
   contextMenuVisible.value = false
   sessionStorage.setItem('historys', JSON.stringify(historys.value))
 }
@@ -139,7 +139,7 @@ const closeLeft = () => {
     return getFmtString(item) === rightActive.value
   })
   const activeIndex = historys.value.findIndex(
-    (item) => getFmtString(item) === activeValue.value
+      (item) => getFmtString(item) === activeValue.value
   )
   historys.value.splice(0, rightIndex)
   if (rightIndex > activeIndex) {
@@ -156,7 +156,7 @@ const closeRight = () => {
     return getFmtString(item) === rightActive.value
   })
   const activeIndex = historys.value.findIndex(
-    (item) => getFmtString(item) === activeValue.value
+      (item) => getFmtString(item) === activeValue.value
   )
   historys.value.splice(leftIndex + 1, historys.value.length)
   if (leftIndex < activeIndex) {
@@ -198,7 +198,7 @@ const setTab = (route) => {
   if (!historys.value.some((item) => isSame(item, route))) {
     const obj = {}
     obj.name = route.name
-    obj.meta = { ...route.meta }
+    obj.meta = {...route.meta}
     delete obj.meta.matched
     obj.query = route.query
     obj.params = route.params
@@ -221,11 +221,11 @@ const changeTab = (TabsPaneContext) => {
 }
 const removeTab = (tab) => {
   const index = historys.value.findIndex(
-    (item) => getFmtString(item) === tab
+      (item) => getFmtString(item) === tab
   )
   if (getFmtString(route) === tab) {
     if (historys.value.length === 1) {
-      router.push({ name: defaultRouter.value })
+      router.push({name: defaultRouter.value})
     } else {
       if (index < historys.value.length - 1) {
         router.push({
@@ -265,7 +265,7 @@ watch(() => route, (to, now) => {
   setTab(to)
   sessionStorage.setItem('historys', JSON.stringify(historys.value))
   activeValue.value = window.sessionStorage.getItem('activeValue')
-}, { deep: true })
+}, {deep: true})
 
 watch(() => historys.value, () => {
   sessionStorage.setItem('historys', JSON.stringify(historys.value))
@@ -339,9 +339,11 @@ onUnmounted(() => {
   color: #333;
   box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.2);
 }
+
 .el-tabs__item .el-icon-close {
   color: initial !important;
 }
+
 .el-tabs__item .dot {
   content: "";
   width: 9px;
@@ -356,6 +358,7 @@ onUnmounted(() => {
   margin: 0;
   padding: 7px 16px;
 }
+
 .contextmenu li:hover {
   background: #f2f2f2;
   cursor: pointer;

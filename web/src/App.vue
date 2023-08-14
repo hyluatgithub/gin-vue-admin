@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-config-provider :locale="zhCn">
-      <router-view />
+      <router-view/>
     </el-config-provider>
   </div>
 </template>
@@ -28,7 +28,8 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
   overflow: hidden;
   font-weight: 400 !important;
 }
-.el-button{
+
+.el-button {
   font-weight: 400 !important;
 }
 </style>

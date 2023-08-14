@@ -2,16 +2,17 @@ package middleware
 
 import (
 	"errors"
-	"github.com/golang-jwt/jwt/v4"
 	"strconv"
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"github.com/golang-jwt/jwt/v4"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
-	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"gin-vue-admin/server/utils"
+
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/response"
+	"gin-vue-admin/server/model/system"
+	"gin-vue-admin/server/service"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -56,16 +57,16 @@ func JWTAuth() gin.HandlerFunc {
 		//	c.Abort()
 		//}
 		if claims.ExpiresAt.Unix()-time.Now().Unix() < claims.BufferTime {
-			dr, _ := utils.ParseDuration(global.GVA_CONFIG.JWT.ExpiresTime)
+			dr, _ := utils.ParseDuration(global.ECOVACS_CONFIG.JWT.ExpiresTime)
 			claims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(dr))
 			newToken, _ := j.CreateTokenByOldToken(token, *claims)
 			newClaims, _ := j.ParseToken(newToken)
 			c.Header("new-token", newToken)
 			c.Header("new-expires-at", strconv.FormatInt(newClaims.ExpiresAt.Unix(), 10))
-			if global.GVA_CONFIG.System.UseMultipoint {
+			if global.ECOVACS_CONFIG.System.UseMultipoint {
 				RedisJwtToken, err := jwtService.GetRedisJWT(newClaims.Username)
 				if err != nil {
-					global.GVA_LOG.Error("get redis jwt failed", zap.Error(err))
+					global.ECOVACS_LOG.Error("get redis jwt failed", zap.Error(err))
 				} else { // 当之前的取成功时才进行拉黑操作
 					_ = jwtService.JsonInBlacklist(system.JwtBlacklist{Jwt: RedisJwtToken})
 				}

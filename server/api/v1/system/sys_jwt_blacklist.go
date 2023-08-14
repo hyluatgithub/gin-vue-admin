@@ -1,9 +1,9 @@
 package system
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/response"
+	"gin-vue-admin/server/model/system"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -23,7 +23,7 @@ func (j *JwtApi) JsonInBlacklist(c *gin.Context) {
 	jwt := system.JwtBlacklist{Jwt: token}
 	err := jwtService.JsonInBlacklist(jwt)
 	if err != nil {
-		global.GVA_LOG.Error("jwt作废失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("jwt作废失败!", zap.Error(err))
 		response.FailWithMessage("jwt作废失败", c)
 		return
 	}

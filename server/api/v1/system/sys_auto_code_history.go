@@ -1,10 +1,10 @@
 package system
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	systemReq "github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/common/request"
+	"gin-vue-admin/server/model/common/response"
+	systemReq "gin-vue-admin/server/model/system/request"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -53,7 +53,7 @@ func (a *AutoCodeHistoryApi) Delete(c *gin.Context) {
 	}
 	err = autoCodeHistoryService.Delete(&info)
 	if err != nil {
-		global.GVA_LOG.Error("删除失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("删除失败!", zap.Error(err))
 		response.FailWithMessage("删除失败", c)
 		return
 	}
@@ -102,7 +102,7 @@ func (a *AutoCodeHistoryApi) GetList(c *gin.Context) {
 	}
 	list, total, err := autoCodeHistoryService.GetList(search.PageInfo)
 	if err != nil {
-		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		global.ECOVACS_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
 		return
 	}

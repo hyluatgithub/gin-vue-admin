@@ -6,12 +6,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/plugin/email/utils"
-	utils2 "github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"gin-vue-admin/server/plugin/email/utils"
+	utils2 "gin-vue-admin/server/utils"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
-	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/model/system"
+	"gin-vue-admin/server/service"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -53,7 +53,7 @@ func ErrorToEmail() gin.HandlerFunc {
 		if status != 200 {
 			subject := username + "" + record.Ip + "调用了" + record.Path + "报错了"
 			if err := utils.ErrorToEmail(subject, str); err != nil {
-				global.GVA_LOG.Error("ErrorToEmail Failed, err:", zap.Error(err))
+				global.ECOVACS_LOG.Error("ErrorToEmail Failed, err:", zap.Error(err))
 			}
 		}
 	}

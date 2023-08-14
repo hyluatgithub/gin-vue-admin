@@ -1,188 +1,201 @@
 <template>
   <div>
     <warning-bar
-      title="获取字典且缓存方法已在前端utils/dictionary 已经封装完成 不必自己书写 使用方法查看文件内注释"
+        title="获取字典且缓存方法已在前端utils/dictionary 已经封装完成 不必自己书写 使用方法查看文件内注释"
     />
-    <div class="gva-search-box">
+    <div class="ecovacs-search-box">
       <el-form :inline="true" :model="searchInfo">
         <el-form-item label="字典名（中）">
-          <el-input v-model="searchInfo.name" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.name" placeholder="搜索条件"/>
         </el-form-item>
         <el-form-item label="字典名（英）">
-          <el-input v-model="searchInfo.type" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.type" placeholder="搜索条件"/>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-select v-model="searchInfo.status" clear placeholder="请选择">
-            <el-option key="true" label="是" value="true" />
-            <el-option key="false" label="否" value="false" />
+            <el-option key="true" label="是" value="true"/>
+            <el-option key="false" label="否" value="false"/>
           </el-select>
         </el-form-item>
         <el-form-item label="描述">
-          <el-input v-model="searchInfo.desc" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.desc" placeholder="搜索条件"/>
         </el-form-item>
         <el-form-item>
           <el-button
 
-            type="primary"
-            icon="search"
-            @click="onSubmit"
-          >查询</el-button>
+              type="primary"
+              icon="search"
+              @click="onSubmit"
+          >查询
+          </el-button>
           <el-button
 
-            icon="refresh"
-            @click="onReset"
-          >重置</el-button>
+              icon="refresh"
+              @click="onReset"
+          >重置
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
-    <div class="gva-table-box">
-      <div class="gva-btn-list">
+    <div class="ecovacs-table-box">
+      <div class="ecovacs-btn-list">
         <el-button
 
-          type="primary"
-          icon="plus"
-          @click="openDialog"
-        >新增</el-button>
-        <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=12&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon>
+            type="primary"
+            icon="plus"
+            @click="openDialog"
+        >新增
+        </el-button>
+        <el-icon class="cursor-pointer"
+                 @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=12&vd_source=f2640257c21e3b547a790461ed94875e')">
+          <VideoCameraFilled/>
+        </el-icon>
       </div>
       <el-table
-        ref="multipleTable"
-        :data="tableData"
-        style="width: 100%"
-        tooltip-effect="dark"
-        row-key="ID"
+          ref="multipleTable"
+          :data="tableData"
+          style="width: 100%"
+          tooltip-effect="dark"
+          row-key="ID"
       >
-        <el-table-column type="selection" width="55" />
+        <el-table-column type="selection" width="55"/>
         <el-table-column align="left" label="日期" width="180">
           <template #default="scope">{{
-            formatDate(scope.row.CreatedAt)
-          }}</template>
+              formatDate(scope.row.CreatedAt)
+            }}
+          </template>
         </el-table-column>
 
         <el-table-column
-          align="left"
-          label="字典名（中）"
-          prop="name"
-          width="160"
+            align="left"
+            label="字典名（中）"
+            prop="name"
+            width="160"
         />
 
         <el-table-column
-          align="left"
-          label="字典名（英）"
-          prop="type"
-          width="120"
+            align="left"
+            label="字典名（英）"
+            prop="type"
+            width="120"
         />
 
         <el-table-column align="left" label="状态" prop="status" width="120">
           <template #default="scope">{{
-            formatBoolean(scope.row.status)
-          }}</template>
+              formatBoolean(scope.row.status)
+            }}
+          </template>
         </el-table-column>
 
-        <el-table-column align="left" label="描述" prop="desc" width="280" />
+        <el-table-column align="left" label="描述" prop="desc" width="280"/>
 
         <el-table-column align="left" label="操作">
           <template #default="scope">
             <el-button
 
-              icon="document"
-              type="primary"
-              link
-              @click="toDetail(scope.row)"
-            >详情</el-button>
+                icon="document"
+                type="primary"
+                link
+                @click="toDetail(scope.row)"
+            >详情
+            </el-button>
             <el-button
 
-              icon="edit"
-              type="primary"
-              link
-              @click="updateSysDictionaryFunc(scope.row)"
-            >变更</el-button>
+                icon="edit"
+                type="primary"
+                link
+                @click="updateSysDictionaryFunc(scope.row)"
+            >变更
+            </el-button>
             <el-popover
-              v-model="scope.row.visible"
-              placement="top"
-              width="160"
+                v-model="scope.row.visible"
+                placement="top"
+                width="160"
             >
               <p>确定要删除吗？</p>
               <div style="text-align: right; margin-top: 8px">
                 <el-button
 
-                  type="primary"
-                  link
-                  @click="scope.row.visible = false"
-                >取消</el-button>
+                    type="primary"
+                    link
+                    @click="scope.row.visible = false"
+                >取消
+                </el-button>
                 <el-button
-                  type="primary"
+                    type="primary"
 
-                  @click="deleteSysDictionaryFunc(scope.row)"
-                >确定</el-button>
+                    @click="deleteSysDictionaryFunc(scope.row)"
+                >确定
+                </el-button>
               </div>
               <template #reference>
                 <el-button
-                  type="primary"
-                  link
-                  icon="delete"
+                    type="primary"
+                    link
+                    icon="delete"
 
-                  style="margin-left: 10px"
-                  @click="scope.row.visible = true"
-                >删除</el-button>
+                    style="margin-left: 10px"
+                    @click="scope.row.visible = true"
+                >删除
+                </el-button>
               </template>
             </el-popover>
           </template>
         </el-table-column>
       </el-table>
 
-      <div class="gva-pagination">
+      <div class="ecovacs-pagination">
         <el-pagination
-          :current-page="page"
-          :page-size="pageSize"
-          :page-sizes="[10, 30, 50, 100]"
-          :total="total"
-          layout="total, sizes, prev, pager, next, jumper"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
+            :current-page="page"
+            :page-size="pageSize"
+            :page-sizes="[10, 30, 50, 100]"
+            :total="total"
+            layout="total, sizes, prev, pager, next, jumper"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
         />
       </div>
     </div>
     <el-dialog
-      v-model="dialogFormVisible"
-      :before-close="closeDialog"
-      :title="type==='create'?'添加字典':'修改字典'"
+        v-model="dialogFormVisible"
+        :before-close="closeDialog"
+        :title="type==='create'?'添加字典':'修改字典'"
     >
       <el-form
-        ref="dialogForm"
-        :model="formData"
-        :rules="rules"
-        label-width="110px"
+          ref="dialogForm"
+          :model="formData"
+          :rules="rules"
+          label-width="110px"
       >
         <el-form-item label="字典名（中）" prop="name">
           <el-input
-            v-model="formData.name"
-            placeholder="请输入字典名（中）"
-            clearable
-            :style="{ width: '100%' }"
+              v-model="formData.name"
+              placeholder="请输入字典名（中）"
+              clearable
+              :style="{ width: '100%' }"
           />
         </el-form-item>
         <el-form-item label="字典名（英）" prop="type">
           <el-input
-            v-model="formData.type"
-            placeholder="请输入字典名（英）"
-            clearable
-            :style="{ width: '100%' }"
+              v-model="formData.type"
+              placeholder="请输入字典名（英）"
+              clearable
+              :style="{ width: '100%' }"
           />
         </el-form-item>
         <el-form-item label="状态" prop="status" required>
           <el-switch
-            v-model="formData.status"
-            active-text="开启"
-            inactive-text="停用"
+              v-model="formData.status"
+              active-text="开启"
+              inactive-text="停用"
           />
         </el-form-item>
         <el-form-item label="描述" prop="desc">
           <el-input
-            v-model="formData.desc"
-            placeholder="请输入描述"
-            clearable
-            :style="{ width: '100%' }"
+              v-model="formData.desc"
+              placeholder="请输入描述"
+              clearable
+              :style="{ width: '100%' }"
           />
         </el-form-item>
       </el-form>
@@ -191,9 +204,10 @@
           <el-button @click="closeDialog">取 消</el-button>
           <el-button
 
-            type="primary"
-            @click="enterDialog"
-          >确 定</el-button>
+              type="primary"
+              @click="enterDialog"
+          >确 定
+          </el-button>
         </div>
       </template>
     </el-dialog>
@@ -215,10 +229,10 @@ import {
   getSysDictionaryList,
 } from '@/api/sysDictionary' // 此处请自行替换地址
 import WarningBar from '@/components/warningBar/warningBar.vue'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { formatBoolean, formatDate } from '@/utils/format'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {ElMessage} from 'element-plus'
+import {formatBoolean, formatDate} from '@/utils/format'
 import {toDoc} from "@/utils/doc";
 import {VideoCameraFilled} from "@element-plus/icons-vue";
 
@@ -286,7 +300,7 @@ const handleCurrentChange = (val) => {
 }
 
 // 查询
-const getTableData = async() => {
+const getTableData = async () => {
   const table = await getSysDictionaryList({
     page: page.value,
     pageSize: pageSize.value,
@@ -313,8 +327,8 @@ const toDetail = (row) => {
 
 const dialogFormVisible = ref(false)
 const type = ref('')
-const updateSysDictionaryFunc = async(row) => {
-  const res = await findSysDictionary({ ID: row.ID, status: row.status })
+const updateSysDictionaryFunc = async (row) => {
+  const res = await findSysDictionary({ID: row.ID, status: row.status})
   type.value = 'update'
   if (res.code === 0) {
     formData.value = res.data.resysDictionary
@@ -330,9 +344,9 @@ const closeDialog = () => {
     desc: null,
   }
 }
-const deleteSysDictionaryFunc = async(row) => {
+const deleteSysDictionaryFunc = async (row) => {
   row.visible = false
-  const res = await deleteSysDictionary({ ID: row.ID })
+  const res = await deleteSysDictionary({ID: row.ID})
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -346,8 +360,8 @@ const deleteSysDictionaryFunc = async(row) => {
 }
 
 const dialogForm = ref(null)
-const enterDialog = async() => {
-  dialogForm.value.validate(async(valid) => {
+const enterDialog = async () => {
+  dialogForm.value.validate(async (valid) => {
     if (!valid) return
     let res
     switch (type.value) {

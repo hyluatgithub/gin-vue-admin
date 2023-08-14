@@ -6,11 +6,11 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"发送成功"}"
 // @Router /email/emailTest [post]
 export const emailTest = (data) => {
-  return service({
-    url: '/email/emailTest',
-    method: 'post',
-    data
-  })
+    return service({
+        url: '/email/emailTest',
+        method: 'post',
+        data
+    })
 }
 
 // @Tags System
@@ -21,10 +21,10 @@ export const emailTest = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"发送成功"}"
 // @Router /email/sendEmail [post]
 export const sendEmail = (data) => {
-  return service({
-    url: '/email/sendEmail',
-    method: 'post',
-    data
-  })
+    return service({
+        url: '/email/sendEmail',
+        method: 'post',
+        data
+    })
 }
 

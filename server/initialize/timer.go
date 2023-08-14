@@ -5,21 +5,21 @@ import (
 
 	"github.com/robfig/cron/v3"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
+	"gin-vue-admin/server/config"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/utils"
 )
 
 func Timer() {
-	if global.GVA_CONFIG.Timer.Start {
-		for i := range global.GVA_CONFIG.Timer.Detail {
+	if global.ECOVACS_CONFIG.Timer.Start {
+		for i := range global.ECOVACS_CONFIG.Timer.Detail {
 			go func(detail config.Detail) {
 				var option []cron.Option
-				if global.GVA_CONFIG.Timer.WithSeconds {
+				if global.ECOVACS_CONFIG.Timer.WithSeconds {
 					option = append(option, cron.WithSeconds())
 				}
-				_, err := global.GVA_Timer.AddTaskByFunc("ClearDB", global.GVA_CONFIG.Timer.Spec, func() {
-					err := utils.ClearTable(global.GVA_DB, detail.TableName, detail.CompareField, detail.Interval)
+				_, err := global.ECOVACS_Timer.AddTaskByFunc("ClearDB", global.ECOVACS_CONFIG.Timer.Spec, func() {
+					err := utils.ClearTable(global.ECOVACS_DB, detail.TableName, detail.CompareField, detail.Interval)
 					if err != nil {
 						fmt.Println("timer error:", err)
 					}
@@ -27,7 +27,7 @@ func Timer() {
 				if err != nil {
 					fmt.Println("add timer error:", err)
 				}
-			}(global.GVA_CONFIG.Timer.Detail[i])
+			}(global.ECOVACS_CONFIG.Timer.Detail[i])
 		}
 	}
 }

@@ -3,7 +3,7 @@ package internal
 import (
 	"fmt"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"gin-vue-admin/server/global"
 	"gorm.io/gorm/logger"
 )
 
@@ -21,14 +21,14 @@ func NewWriter(w logger.Writer) *writer {
 // Author [SliverHorn](https://github.com/SliverHorn)
 func (w *writer) Printf(message string, data ...interface{}) {
 	var logZap bool
-	switch global.GVA_CONFIG.System.DbType {
+	switch global.ECOVACS_CONFIG.System.DbType {
 	case "mysql":
-		logZap = global.GVA_CONFIG.Mysql.LogZap
+		logZap = global.ECOVACS_CONFIG.Mysql.LogZap
 	case "pgsql":
-		logZap = global.GVA_CONFIG.Pgsql.LogZap
+		logZap = global.ECOVACS_CONFIG.Pgsql.LogZap
 	}
 	if logZap {
-		global.GVA_LOG.Info(fmt.Sprintf(message+"\n", data...))
+		global.ECOVACS_LOG.Info(fmt.Sprintf(message+"\n", data...))
 	} else {
 		w.Writer.Printf(message, data...)
 	}

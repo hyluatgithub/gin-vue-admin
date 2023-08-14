@@ -1,32 +1,37 @@
-# gin-vue-admin web 
+# gin-vue-admin web
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
 
 ### Run your tests
+
 ```
 npm run test
 ```
 
 ### Lints and fixes files
+
 ```
 npm run lint
 ```
 
-
 整理代码结构
+
 ``` lua
 web
  ├── babel.config.js
@@ -40,7 +45,7 @@ web
  │   ├── App.vue                -- 主页面
  │   ├── assets                 -- 静态资源
  │   ├── components             -- 全局组件
- │   ├── core                   -- gva 组件包
+ │   ├── core                   -- ecovacs 组件包
  │   │   ├── config.js          -- gva网站配置文件
  │   │   ├── gin-vue-admin.js   -- 注册欢迎文件
  │   │   └── global.js          -- 统一导入文件

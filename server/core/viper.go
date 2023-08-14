@@ -3,16 +3,17 @@ package core
 import (
 	"flag"
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/core/internal"
-	"github.com/gin-gonic/gin"
 	"os"
 	"path/filepath"
+
+	"gin-vue-admin/server/core/internal"
+	"github.com/gin-gonic/gin"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	_ "github.com/flipped-aurora/gin-vue-admin/server/packfile"
+	"gin-vue-admin/server/global"
+	_ "gin-vue-admin/server/packfile"
 )
 
 // Viper //
@@ -60,15 +61,15 @@ func Viper(path ...string) *viper.Viper {
 
 	v.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("config file changed:", e.Name)
-		if err = v.Unmarshal(&global.GVA_CONFIG); err != nil {
+		if err = v.Unmarshal(&global.ECOVACS_CONFIG); err != nil {
 			fmt.Println(err)
 		}
 	})
-	if err = v.Unmarshal(&global.GVA_CONFIG); err != nil {
+	if err = v.Unmarshal(&global.ECOVACS_CONFIG); err != nil {
 		fmt.Println(err)
 	}
 
 	// root 适配性 根据root位置去找到对应迁移位置,保证root路径有效
-	global.GVA_CONFIG.AutoCode.Root, _ = filepath.Abs("..")
+	global.ECOVACS_CONFIG.AutoCode.Root, _ = filepath.Abs("..")
 	return v
 }

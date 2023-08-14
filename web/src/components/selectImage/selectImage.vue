@@ -1,36 +1,36 @@
 <template>
   <div
-    v-if="!multiple"
-    class="update-image"
-    :style="{
+      v-if="!multiple"
+      class="update-image"
+      :style="{
       'background-image': `url(${getUrl(modelValue)})`,
     }"
   >
     <span class="update" @click="openChooseImg">
       <el-icon>
-        <edit />
+        <edit/>
       </el-icon>
       重新上传</span>
   </div>
   <div v-else class="multiple-img">
     <div
-      v-for="(item, index) in multipleValue"
-      :key="index"
-      class="update-image"
-      :style="{
+        v-for="(item, index) in multipleValue"
+        :key="index"
+        class="update-image"
+        :style="{
         'background-image': `url(${getUrl(item)})`,
       }"
     >
       <span class="update" @click="deleteImg(index)">
         <el-icon>
-          <delete />
+          <delete/>
         </el-icon>
         删除图片</span>
     </div>
     <div class="add-image">
       <span class="update" @click="openChooseImg">
         <el-icon>
-          <folder-add />
+          <folder-add/>
         </el-icon>
         上传图片</span>
     </div>
@@ -38,24 +38,24 @@
 
   <el-drawer v-model="drawer" title="媒体库" size="650px">
     <warning-bar
-      title="点击“文件名/备注”可以编辑文件名或者备注内容。"
+        title="点击“文件名/备注”可以编辑文件名或者备注内容。"
     />
-    <div class="gva-btn-list">
+    <div class="ecovacs-btn-list">
       <upload-common
-        v-model:imageCommon="imageCommon"
-        class="upload-btn-media-library"
-        @on-success="getImageList"
+          v-model:imageCommon="imageCommon"
+          class="upload-btn-media-library"
+          @on-success="getImageList"
       />
       <upload-image
-        v-model:imageUrl="imageUrl"
-        :file-size="512"
-        :max-w-h="1080"
-        class="upload-btn-media-library"
-        @on-success="getImageList"
+          v-model:imageUrl="imageUrl"
+          :file-size="512"
+          :max-w-h="1080"
+          class="upload-btn-media-library"
+          @on-success="getImageList"
       />
       <el-form ref="searchForm" :inline="true" :model="search">
         <el-form-item label="">
-          <el-input v-model="search.keyword" class="keyword" placeholder="请输入文件名或备注" />
+          <el-input v-model="search.keyword" class="keyword" placeholder="请输入文件名或备注"/>
         </el-form-item>
 
         <el-form-item>
@@ -67,14 +67,14 @@
       <div v-for="(item,key) in picList" :key="key" class="media-box">
         <div class="header-img-box-list">
           <el-image
-            :key="key"
-            :src="getUrl(item.url)"
-            @click="chooseImg(item.url)"
+              :key="key"
+              :src="getUrl(item.url)"
+              @click="chooseImg(item.url)"
           >
             <template #error>
               <div class="header-img-box-list">
                 <el-icon>
-                  <picture />
+                  <picture/>
                 </el-icon>
               </div>
             </template>
@@ -84,27 +84,27 @@
       </div>
     </div>
     <el-pagination
-      :current-page="page"
-      :page-size="pageSize"
-      :total="total"
-      :style="{'justify-content':'center'}"
-      layout="total, prev, pager, next, jumper"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
+        :current-page="page"
+        :page-size="pageSize"
+        :total="total"
+        :style="{'justify-content':'center'}"
+        layout="total, prev, pager, next, jumper"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
     />
   </el-drawer>
 </template>
 
 <script setup>
 
-import { getUrl } from '@/utils/image'
-import { onMounted, ref } from 'vue'
-import { getFileList, editFileName } from '@/api/fileUploadAndDownload'
+import {getUrl} from '@/utils/image'
+import {onMounted, ref} from 'vue'
+import {editFileName, getFileList} from '@/api/fileUploadAndDownload'
 import UploadImage from '@/components/upload/image.vue'
 import UploadCommon from '@/components/upload/common.vue'
 import WarningBar from '@/components/warningBar/warningBar.vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { Delete, FolderAdd } from '@element-plus/icons-vue'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {Delete, FolderAdd} from '@element-plus/icons-vue'
 
 const imageUrl = ref('')
 const imageCommon = ref('')
@@ -150,14 +150,14 @@ const handleCurrentChange = (val) => {
   page.value = val
   getImageList()
 }
-const editFileNameFunc = async(row) => {
+const editFileNameFunc = async (row) => {
   ElMessageBox.prompt('请输入文件名或者备注', '编辑', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     inputPattern: /\S/,
     inputErrorMessage: '不能为空',
     inputValue: row.name
-  }).then(async({ value }) => {
+  }).then(async ({value}) => {
     row.name = value
     // console.log(row)
     const res = await editFileName(row)
@@ -188,13 +188,13 @@ const chooseImg = (url) => {
   }
   drawer.value = false
 }
-const openChooseImg = async() => {
+const openChooseImg = async () => {
   await getImageList()
   drawer.value = true
 }
 
-const getImageList = async() => {
-  const res = await getFileList({ page: page.value, pageSize: pageSize.value, ...search.value })
+const getImageList = async () => {
+  const res = await getFileList({page: page.value, pageSize: pageSize.value, ...search.value})
   if (res.code === 0) {
     picList.value = res.data.list
     total.value = res.data.total
@@ -207,12 +207,12 @@ const getImageList = async() => {
 
 <style scoped lang="scss">
 
-.multiple-img{
+.multiple-img {
   display: flex;
-  gap:8px;
+  gap: 8px;
 }
 
-.add-image{
+.add-image {
   width: 120px;
   height: 120px;
   line-height: 120px;
@@ -233,27 +233,29 @@ const getImageList = async() => {
   justify-content: center;
   border-radius: 20px;
   border: 1px dashed #ccc;
-   background-repeat: no-repeat;
-   background-size: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+
   &:hover {
     color: #fff;
     background: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.15) 0%,
-            rgba(0, 0, 0, 0.15) 100%
+        to bottom,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(0, 0, 0, 0.15) 100%
     ),
     radial-gradient(
-            at top center,
-            rgba(255, 255, 255, 0.4) 0%,
-            rgba(0, 0, 0, 0.4) 120%
-    )
-    #989898;
+        at top center,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(0, 0, 0, 0.4) 120%
+    ) #989898;
     background-blend-mode: multiply, multiply;
     background-size: cover;
+
     .update {
       color: #fff;
     }
   }
+
   .update {
     height: 120px;
     width: 120px;
@@ -292,6 +294,7 @@ const getImageList = async() => {
       line-height: 120px;
       cursor: pointer;
       overflow: hidden;
+
       .el-image__inner {
         max-width: 120px;
         max-height: 120px;

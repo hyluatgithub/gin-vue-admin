@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gva-server
+  name: ecovacs-server
   annotations:
     flipped-aurora/gin-vue-admin: backend
     github: "https://github.com/flipped-aurora/gin-vue-admin.git"
     app.kubernetes.io/version: 0.0.1
   labels:
-    app: gva-server
-    version: gva-vue3
+    app: ecovacs-server
+    version: ecovacs-vue3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gva-server
-      version: gva-vue3
+      app: ecovacs-server
+      version: ecovacs-vue3
   template:
     metadata:
       labels:
-        app: gva-server
-        version: gva-vue3
+        app: ecovacs-server
+        version: ecovacs-vue3
     spec:
       containers:
         - name: gin-vue-admin-container
-          image: registry.cn-hangzhou.aliyuncs.com/gva/server:latest
+          image: registry.cn-hangzhou.aliyuncs.com/ecovacs/server:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8888
               name: http
           volumeMounts:
-            - mountPath: /go/src/github.com/flipped-aurora/gin-vue-admin/server/config.docker.yaml
+            - mountPath: /go/src/gin-vue-admin/server/config.docker.yaml
               name: config
               subPath: config.yaml
             - mountPath: /etc/localtime

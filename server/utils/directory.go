@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"gin-vue-admin/server/global"
 	"go.uber.org/zap"
 )
 
@@ -41,9 +41,9 @@ func CreateDir(dirs ...string) (err error) {
 			return err
 		}
 		if !exist {
-			global.GVA_LOG.Debug("create directory" + v)
+			global.ECOVACS_LOG.Debug("create directory" + v)
 			if err := os.MkdirAll(v, os.ModePerm); err != nil {
-				global.GVA_LOG.Error("create directory"+v, zap.Any(" error:", err))
+				global.ECOVACS_LOG.Error("create directory"+v, zap.Any(" error:", err))
 				return err
 			}
 		}

@@ -1,16 +1,16 @@
 package initialize
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/config"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/initialize/internal"
+	"gin-vue-admin/server/config"
+	"gin-vue-admin/server/global"
+	"gin-vue-admin/server/initialize/internal"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
 
 // GormSqlite 初始化Sqlite数据库
 func GormSqlite() *gorm.DB {
-	s := global.GVA_CONFIG.Sqlite
+	s := global.ECOVACS_CONFIG.Sqlite
 	if s.Dbname == "" {
 		return nil
 	}

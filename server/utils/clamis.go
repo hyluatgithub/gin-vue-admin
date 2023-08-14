@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	systemReq "github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
+	"gin-vue-admin/server/global"
+	systemReq "gin-vue-admin/server/model/system/request"
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid/v5"
 )
@@ -12,7 +12,7 @@ func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
 	j := NewJWT()
 	claims, err := j.ParseToken(token)
 	if err != nil {
-		global.GVA_LOG.Error("从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构")
+		global.ECOVACS_LOG.Error("从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构")
 	}
 	return claims, err
 }

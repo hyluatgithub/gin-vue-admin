@@ -3,13 +3,14 @@ package ast
 import (
 	"bytes"
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"go/ast"
 	"go/parser"
 	"go/printer"
 	"go/token"
 	"os"
 	"path/filepath"
+
+	"gin-vue-admin/server/global"
 )
 
 func RollBackAst(pk, model string) {
@@ -22,7 +23,7 @@ func RollGormBack(pk, model string) {
 	// 首先分析存在多少个ttt作为调用方的node块
 	// 如果多个 仅仅删除对应块即可
 	// 如果单个 那么还需要剔除import
-	path := filepath.Join(global.GVA_CONFIG.AutoCode.Root, global.GVA_CONFIG.AutoCode.Server, "initialize", "gorm.go")
+	path := filepath.Join(global.ECOVACS_CONFIG.AutoCode.Root, global.ECOVACS_CONFIG.AutoCode.Server, "initialize", "gorm.go")
 	src, err := os.ReadFile(path)
 	if err != nil {
 		fmt.Println(err)
@@ -33,7 +34,7 @@ func RollGormBack(pk, model string) {
 		fmt.Println(err)
 	}
 	var n *ast.CallExpr
-	var k int = -1
+	var k = -1
 	var pkNum = 0
 	ast.Inspect(astFile, func(node ast.Node) bool {
 		if node, ok := node.(*ast.CallExpr); ok {
@@ -64,13 +65,13 @@ func RollGormBack(pk, model string) {
 		n.Args = append(append([]ast.Expr{}, n.Args[:k]...), n.Args[k+1:]...)
 	}
 	if pkNum == 1 {
-		var imI int = -1
+		var imI = -1
 		var gp *ast.GenDecl
 		ast.Inspect(astFile, func(node ast.Node) bool {
 			if gen, ok := node.(*ast.GenDecl); ok {
 				for i := range gen.Specs {
 					if imspec, ok := gen.Specs[i].(*ast.ImportSpec); ok {
-						if imspec.Path.Value == "\"github.com/flipped-aurora/gin-vue-admin/server/model/"+pk+"\"" {
+						if imspec.Path.Value == "\"gin-vue-admin/server/model/"+pk+"\"" {
 							gp = gen
 							imI = i
 							return false
@@ -99,7 +100,7 @@ func RollRouterBack(pk, model string) {
 	// 首先抓到所有的代码块结构 {}
 	// 分析结构中是否存在一个变量叫做 pk+Router
 	// 然后获取到代码块指针 对内部需要回滚的代码进行剔除
-	path := filepath.Join(global.GVA_CONFIG.AutoCode.Root, global.GVA_CONFIG.AutoCode.Server, "initialize", "router.go")
+	path := filepath.Join(global.ECOVACS_CONFIG.AutoCode.Root, global.ECOVACS_CONFIG.AutoCode.Server, "initialize", "router.go")
 	src, err := os.ReadFile(path)
 	if err != nil {
 		fmt.Println(err)

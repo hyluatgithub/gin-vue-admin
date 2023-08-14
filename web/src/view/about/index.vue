@@ -11,9 +11,9 @@
               <el-col :span="8" :offset="8">
                 <a href="https://github.com/flipped-aurora/gin-vue-admin">
                   <img
-                    class="org-img dom-center"
-                    src="@/assets/logo.png"
-                    alt="gin-vue-admin"
+                      class="org-img dom-center"
+                      src="@/assets/logo.png"
+                      alt="gin-vue-admin"
                   >
                 </a>
               </el-col>
@@ -22,27 +22,27 @@
               <el-col :span="8">
                 <a href="https://github.com/flipped-aurora/gin-vue-admin">
                   <img
-                    class="dom-center"
-                    src="https://img.shields.io/github/watchers/flipped-aurora/gin-vue-admin.svg?label=Watch"
-                    alt=""
+                      class="dom-center"
+                      src="https://img.shields.io/github/watchers/flipped-aurora/gin-vue-admin.svg?label=Watch"
+                      alt=""
                   >
                 </a>
               </el-col>
               <el-col :span="8">
                 <a href="https://github.com/flipped-aurora/gin-vue-admin">
                   <img
-                    class="dom-center"
-                    src="https://img.shields.io/github/stars/flipped-aurora/gin-vue-admin.svg?style=social"
-                    alt=""
+                      class="dom-center"
+                      src="https://img.shields.io/github/stars/flipped-aurora/gin-vue-admin.svg?style=social"
+                      alt=""
                   >
                 </a>
               </el-col>
               <el-col :span="8">
                 <a href="https://github.com/flipped-aurora/gin-vue-admin">
                   <img
-                    class="dom-center"
-                    src="https://img.shields.io/github/forks/flipped-aurora/gin-vue-admin.svg?label=Fork"
-                    alt=""
+                      class="dom-center"
+                      src="https://img.shields.io/github/forks/flipped-aurora/gin-vue-admin.svg?label=Fork"
+                      alt=""
                   >
                 </a>
               </el-col>
@@ -58,9 +58,9 @@
               <el-col :span="8" :offset="8">
                 <a href="https://github.com/flipped-aurora">
                   <img
-                    class="org-img dom-center"
-                    src="@/assets/flipped-aurora.png"
-                    alt="flipped-aurora"
+                      class="org-img dom-center"
+                      src="@/assets/flipped-aurora.png"
+                      alt="flipped-aurora"
                   >
                 </a>
               </el-col>
@@ -84,10 +84,10 @@
           <div>
             <el-timeline>
               <el-timeline-item
-                v-for="(item,index) in dataTimeline"
-                :key="index"
-                :timestamp="item.from"
-                placement="top"
+                  v-for="(item,index) in dataTimeline"
+                  :key="index"
+                  :timestamp="item.from"
+                  placement="top"
               >
                 <el-card>
                   <h4>{{ item.title }}</h4>
@@ -97,11 +97,12 @@
             </el-timeline>
           </div>
           <el-button
-            class="load-more"
-            type="primary"
-            link
-            @click="loadMore"
-          >Load more</el-button>
+              class="load-more"
+              type="primary"
+              link
+              @click="loadMore"
+          >Load more
+          </el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -115,9 +116,10 @@ export default {
 </script>
 
 <script setup>
-import { ref } from 'vue'
-import { Commits, Members } from '@/api/github'
-import { formatTimeToStr } from '@/utils/date'
+import {ref} from 'vue'
+import {Commits, Members} from '@/api/github'
+import {formatTimeToStr} from '@/utils/date'
+
 const page = ref(0)
 
 const loadMore = () => {
@@ -127,7 +129,7 @@ const loadMore = () => {
 
 const dataTimeline = ref([])
 const loadCommits = () => {
-  Commits(page.value).then(({ data }) => {
+  Commits(page.value).then(({data}) => {
     data.forEach((element) => {
       if (element.commit.message) {
         dataTimeline.value.push({
@@ -143,7 +145,7 @@ const loadCommits = () => {
 
 const members = ref([])
 const loadMembers = () => {
-  Members().then(({ data }) => {
+  Members().then(({data}) => {
     members.value = data
     members.value.sort()
   })
@@ -181,7 +183,7 @@ loadMembers()
   color: darkblue;
   line-height: 100px;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .dom-center {

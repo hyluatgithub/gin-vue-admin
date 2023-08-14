@@ -515,7 +515,7 @@ li {
     .el-container.mobile.openside {
         @apply fixed top-0;
     }
-    .gva-aside {
+    .ecovacs-aside {
         @apply fixed top-0 left-0 z-[1001] overflow-hidden;
         .el-menu {
             @apply border-r-0;
@@ -552,7 +552,7 @@ li {
     }
 
     .mobile {
-        .gva-aside {
+        .ecovacs-aside {
             @apply w-[54px];
         }
     }
@@ -675,11 +675,11 @@ li {
     @apply overflow-hidden
 }
 
-.gva-table-box {
+.ecovacs-table-box {
     @apply p-6 bg-white rounded;
 }
 
-.gva-btn-list {
+.ecovacs-btn-list {
     @apply mb-3 flex gap-3 items-center;
 }
 

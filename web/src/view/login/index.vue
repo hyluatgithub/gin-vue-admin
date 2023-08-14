@@ -1,10 +1,10 @@
 <template>
   <div id="userLayout" class="w-full h-full relative">
     <div
-      class="rounded-lg flex items-center justify-evenly w-full h-full bg-white md:w-screen md:h-screen md:bg-[#194bfb]"
+        class="rounded-lg flex items-center justify-evenly w-full h-full bg-white md:w-screen md:h-screen md:bg-[#194bfb]"
     >
       <div class="md:w-3/5 w-10/12 h-full flex items-center justify-evenly">
-        <div class="oblique h-[130%] w-3/5 bg-white transform -rotate-12 absolute -ml-52" />
+        <div class="oblique h-[130%] w-3/5 bg-white transform -rotate-12 absolute -ml-52"/>
         <!-- 分割斜块 -->
         <div class="z-[999] pt-12 pb-10 md:w-96 w-full  rounded-lg flex flex-col justify-between box-border">
           <div>
@@ -17,42 +17,46 @@
               </p>
             </div>
             <el-form
-              ref="loginForm"
-              :model="loginFormData"
-              :rules="rules"
-              :validate-on-rule-change="false"
-              @keyup.enter="submitForm"
+                ref="loginForm"
+                :model="loginFormData"
+                :rules="rules"
+                :validate-on-rule-change="false"
+                @keyup.enter="submitForm"
             >
               <el-form-item prop="username" class="mb-6">
-                <el-input v-model="loginFormData.username" size="large" placeholder="请输入用户名" suffix-icon="user" />
+                <el-input v-model="loginFormData.username" size="large" placeholder="请输入用户名" suffix-icon="user"/>
               </el-form-item>
               <el-form-item prop="password" class="mb-6">
                 <el-input
-                  v-model="loginFormData.password"
-                  show-password
-                  size="large"
-                  type="password"
-                  placeholder="请输入密码"
+                    v-model="loginFormData.password"
+                    show-password
+                    size="large"
+                    type="password"
+                    placeholder="请输入密码"
                 />
               </el-form-item>
               <el-form-item v-if="loginFormData.openCaptcha" prop="captcha" class="mb-6">
                 <div class="flex w-full justify-between">
-                  <el-input v-model="loginFormData.captcha" placeholder="请输入验证码" size="large" class="flex-1 mr-5" />
+                  <el-input v-model="loginFormData.captcha" placeholder="请输入验证码" size="large"
+                            class="flex-1 mr-5"/>
                   <div class="w-1/3 h-11 bg-[#c3d4f2] rounded">
                     <img v-if="picPath" class="w-full h-full" :src="picPath" alt="请输入验证码" @click="loginVerify()">
                   </div>
                 </div>
               </el-form-item>
               <el-form-item class="mb-6">
-                <el-button class="shadow shadow-blue-600 h-11 w-full" type="primary" size="large" @click="submitForm">登 录</el-button>
+                <el-button class="shadow shadow-blue-600 h-11 w-full" type="primary" size="large" @click="submitForm">登
+                  录
+                </el-button>
               </el-form-item>
               <el-form-item class="mb-6">
                 <el-button
-                  class="shadow shadow-blue-600 h-11 w-full"
-                  type="primary"
-                  size="large"
-                  @click="checkInit"
-                >前往初始化</el-button>
+                    class="shadow shadow-blue-600 h-11 w-full"
+                    type="primary"
+                    size="large"
+                    @click="checkInit"
+                >前往初始化
+                </el-button>
 
               </el-form-item>
             </el-form>
@@ -60,9 +64,9 @@
         </div>
       </div>
       <div class="hidden md:block w-1/2 h-full float-right bg-[#194bfb]"><img
-        class="h-full"
-        src="@/assets/login_right_banner.jpg"
-        alt="banner"
+          class="h-full"
+          src="@/assets/login_right_banner.jpg"
+          alt="banner"
       ></div>
     </div>
 
@@ -92,13 +96,14 @@ export default {
 </script>
 
 <script setup>
-import { captcha } from '@/api/user'
-import { checkDB } from '@/api/initdb'
+import {captcha} from '@/api/user'
+import {checkDB} from '@/api/initdb'
 import BottomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
-import { reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/pinia/modules/user'
+import {reactive, ref} from 'vue'
+import {ElMessage} from 'element-plus'
+import {useRouter} from 'vue-router'
+import {useUserStore} from '@/pinia/modules/user'
+
 const router = useRouter()
 // 验证函数
 const checkUsername = (rule, value, callback) => {
@@ -118,7 +123,7 @@ const checkPassword = (rule, value, callback) => {
 
 // 获取验证码
 const loginVerify = () => {
-  captcha({}).then(async(ele) => {
+  captcha({}).then(async (ele) => {
     rules.captcha.push({
       max: ele.data.captchaLength,
       min: ele.data.captchaLength,
@@ -143,8 +148,8 @@ const loginFormData = reactive({
   openCaptcha: false,
 })
 const rules = reactive({
-  username: [{ validator: checkUsername, trigger: 'blur' }],
-  password: [{ validator: checkPassword, trigger: 'blur' }],
+  username: [{validator: checkUsername, trigger: 'blur'}],
+  password: [{validator: checkPassword, trigger: 'blur'}],
   captcha: [
     {
       message: '验证码格式不正确',
@@ -154,11 +159,11 @@ const rules = reactive({
 })
 
 const userStore = useUserStore()
-const login = async() => {
+const login = async () => {
   return await userStore.LoginIn(loginFormData)
 }
 const submitForm = () => {
-  loginForm.value.validate(async(v) => {
+  loginForm.value.validate(async (v) => {
     if (v) {
       const flag = await login()
       if (!flag) {
@@ -177,12 +182,12 @@ const submitForm = () => {
 }
 
 // 跳转初始化
-const checkInit = async() => {
+const checkInit = async () => {
   const res = await checkDB()
   if (res.code === 0) {
     if (res.data?.needInit) {
       userStore.NeedInit()
-      router.push({ name: 'Init' })
+      router.push({name: 'Init'})
     } else {
       ElMessage({
         type: 'info',

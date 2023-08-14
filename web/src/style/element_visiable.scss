@@ -12,15 +12,15 @@
 }
 
 
-.gva-search-box {
+.ecovacs-search-box {
     @apply p-6 pb-0.5 bg-white rounded mb-3;
 }
 
-.gva-form-box {
+.ecovacs-form-box {
     @apply p-6 bg-white rounded;
 }
 
-.gva-pagination {
+.ecovacs-pagination {
     @apply flex justify-end;
     .el-pagination__editor {
         .el-input__inner {

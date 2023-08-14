@@ -1,17 +1,17 @@
 <template>
-    <el-tabs v-model="activeName">
-      <el-tab-pane v-for="(item, key) in previewCode" :key="key" :label="key" :name="key">
-        <div :id="key" class="h-[50vh] bg-white px-5 overflow-y-scroll" />
-      </el-tab-pane>
-    </el-tabs>
+  <el-tabs v-model="activeName">
+    <el-tab-pane v-for="(item, key) in previewCode" :key="key" :label="key" :name="key">
+      <div :id="key" class="h-[50vh] bg-white px-5 overflow-y-scroll"/>
+    </el-tab-pane>
+  </el-tabs>
 </template>
 
 <script setup>
-import { marked } from 'marked'
+import {marked} from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
-import { ElMessage } from 'element-plus'
-import { onMounted, ref } from 'vue'
+import {ElMessage} from 'element-plus'
+import {onMounted, ref} from 'vue'
 
 const props = defineProps({
   previewCode: {
@@ -26,7 +26,7 @@ const activeName = ref('')
 onMounted(() => {
   marked.setOptions({
     renderer: new marked.Renderer(),
-    highlight: function(code) {
+    highlight: function (code) {
       return hljs.highlightAuto(code).value
     },
     pedantic: false,
@@ -69,13 +69,11 @@ const copy = () => {
   ElMessage.success('复制成功')
 }
 
-defineExpose({ copy })
+defineExpose({copy})
 
 </script>
 
 <script>
 
-export default {
-
-}
+export default {}
 </script>

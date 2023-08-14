@@ -1,15 +1,17 @@
 <template>
   <div>
     <el-upload
-      drag
-      :action="`${path}/autoCode/installPlugin`"
-      :headers="{'x-token':userStore.token}"
-      :show-file-list="false"
-      :on-success="handleSuccess"
-      :on-error="handleSuccess"
-      name="plug"
+        drag
+        :action="`${path}/autoCode/installPlugin`"
+        :headers="{'x-token':userStore.token}"
+        :show-file-list="false"
+        :on-success="handleSuccess"
+        :on-error="handleSuccess"
+        name="plug"
     >
-      <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+      <el-icon class="el-icon--upload">
+        <upload-filled/>
+      </el-icon>
       <div class="el-upload__text">
         拖拽或<em>点击上传</em>
       </div>
@@ -23,9 +25,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useUserStore } from '@/pinia/modules/user'
-import { ElMessage } from 'element-plus'
+import {ref} from 'vue'
+import {useUserStore} from '@/pinia/modules/user'
+import {ElMessage} from 'element-plus'
+
 const userStore = useUserStore()
 const path = ref(import.meta.env.VITE_BASE_API)
 

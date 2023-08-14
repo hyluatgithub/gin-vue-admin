@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.8.0]
+        node-version: [ 16.8.0 ]
     steps:
       - name: Check out branch
         uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [1.18]
+        go-version: [ 1.18 ]
     steps:
       - name: Set up Go ${{ matrix.go-version }}
         uses: actions/setup-go@v1
@@ -76,15 +76,15 @@ jobs:
   devops-test:
     if: github.ref == 'refs/heads/test'
     name: devops-test
-    needs: 
+    needs:
       - init
       - backend
       - frontend
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.8.0]
-        go-version: [1.18]
+        node-version: [ 16.8.0 ]
+        go-version: [ 1.18 ]
     steps:
       - name: Check out branch
         uses: actions/checkout@v2
@@ -194,8 +194,8 @@ jobs:
     name: devops-prod
     strategy:
       matrix:
-        node-version: ['16.x']
-        go-version: ['1.18']
+        node-version: [ '16.x' ]
+        go-version: [ '1.18' ]
     steps:
       - uses: actions/checkout@v2
       - name: tag major and minor versions
@@ -259,11 +259,11 @@ jobs:
           sed  -i 56c"\        && yarn install && yarn build" Makefile
           make image TAGS_OPT="latest"
           sed -i 's#./entrypoint.sh"#./entrypoint.sh","actions"#g' deploy/docker/Dockerfile
-          sed -i "s#COPY build/ /usr/share/nginx/html/#COPY . /opt/gva#g" deploy/docker/Dockerfile
-          sed -i 16c"\    && cd /opt/gva/server/ && go mod tidy && cd /opt/gva/web/ && yarn" deploy/docker/Dockerfile
+          sed -i "s#COPY build/ /usr/share/nginx/html/#COPY . /opt/ecovacs#g" deploy/docker/Dockerfile
+          sed -i 16c"\    && cd /opt/ecovacs/server/ && go mod tidy && cd /opt/ecovacs/web/ && yarn" deploy/docker/Dockerfile
           sed -i "s#open: true#open: false#g" web/vite.config.js
           make images TAGS_OPT="latest"
-          docker push registry.cn-hangzhou.aliyuncs.com/gva/gin-vue-admin:latest
-          docker push registry.cn-hangzhou.aliyuncs.com/gva/web:latest
-          docker push registry.cn-hangzhou.aliyuncs.com/gva/server:latest
-          docker push registry.cn-hangzhou.aliyuncs.com/gva/all:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/ecovacs/gin-vue-admin:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/ecovacs/web:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/ecovacs/server:latest
+          docker push registry.cn-hangzhou.aliyuncs.com/ecovacs/all:latest
